@@ -38,7 +38,6 @@ def draw_spot_painting():
     # Turtle setup: fastest speed for efficiency
     t = turtle.Turtle()
     t.speed(0)  # Fastest drawing speed
-    t.hideturtle()  # Will be hidden later, but set initially
     
     # High-saturation pop art color palette (RGB hex codes)
     # Colors inspired by Damien Hirst's vibrant, bold aesthetic
@@ -95,14 +94,11 @@ def draw_spot_painting():
             # Select random color from palette for this spot
             color = random.choice(colors)
             t.fillcolor(color)
-            t.pencolor(color)  # Match pen to fill (though pen won't draw)
             
             # Draw filled circle with no border
-            t.pendown()
             t.begin_fill()
             t.circle(spot_radius)
             t.end_fill()
-            t.penup()
     
     # Hide turtle arrow for clean final presentation
     t.hideturtle()
