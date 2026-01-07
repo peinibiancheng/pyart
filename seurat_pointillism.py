@@ -24,8 +24,6 @@ def setup_canvas():
 def draw_sky():
     """绘制天空 - 浅蓝色和白色点 / Draw sky - light blue and white dots"""
     # 天空区域：画布上半部分 / Sky area: upper half of canvas
-    sky_colors = ["#87CEEB", "#B0E0E6", "#ADD8E6", "white", "#E0F6FF"]
-    
     dot_size = 3
     spacing = 1
     step = dot_size + spacing
@@ -50,8 +48,6 @@ def draw_sky():
 def draw_grass():
     """绘制草地 - 草绿、黄绿、土黄色点 / Draw grass - green, yellow-green, and tan dots"""
     # 草地区域：画布中下部分 / Grass area: middle-lower part of canvas
-    grass_colors = ["#228B22", "#32CD32", "#90EE90", "#9ACD32", "#BDB76B", "#DAA520"]
-    
     dot_size = 3
     spacing = 1
     step = dot_size + spacing
@@ -83,8 +79,6 @@ def draw_grass():
 def draw_riverbank():
     """绘制河岸边缘 - 棕色和黑色点 / Draw riverbank edge - brown and black dots"""
     # 河岸区域：画布底部 / Riverbank area: bottom of canvas
-    bank_colors = ["#8B4513", "#654321", "#A0522D", "#5C4033", "#2F1F10", "black"]
-    
     dot_size = 3
     spacing = 1
     step = dot_size + spacing
