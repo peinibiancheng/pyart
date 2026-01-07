@@ -31,7 +31,7 @@ python geometric_mandala.py
 
 ## Requirements
 - Python 3.x with tkinter support
-- Standard library only (turtle, math, random)
+- Standard library only (turtle, math)
 
 ## Running the Artworks
 Each artwork is a standalone Python script. Simply run:
