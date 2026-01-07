@@ -34,7 +34,7 @@ def draw_starry_night():
     # Setup
     screen = turtle.Screen()
     screen.setup(width=800, height=600)
-    screen.bgcolor("#1a5fb4")  # Blue background from palette
+    screen.bgcolor("black")  # Black night sky background from palette
     screen.title("Starry Night - Van Gogh Inspired")
     
     t = turtle.Turtle()
@@ -74,7 +74,7 @@ def draw_swirl_line(t, start_x, start_y):
     t.goto(start_x, start_y)
     t.pendown()
     
-    # Use only the specified blue color for sky swirls
+    # Use blue color for sky swirls (visible against black background)
     t.pencolor("#1a5fb4")
     
     # Draw sinusoidal swirl
@@ -119,9 +119,9 @@ def draw_stars(t):
     
     t.pensize(1)
     
-    # Draw stars at various positions
+    # Draw stars at various positions (ensure exactly 30 stars)
     star_positions = []
-    for _ in range(30):
+    while len(star_positions) < 30:
         x = random.randint(-380, 380)
         y = random.randint(-200, 250)
         # Avoid moon area
