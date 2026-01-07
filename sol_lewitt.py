@@ -8,7 +8,7 @@ Usage:
 
 Requirements:
     - Python 3.x with tkinter support
-    - Standard library only (turtle)
+    - Standard library only (turtle, math)
 
 Features:
     - Canvas divided into four quadrants
@@ -16,7 +16,8 @@ Features:
     - Quadrant 2 (top-left): Horizontal lines
     - Quadrant 3 (bottom-left): Diagonal lines (45° left tilt)
     - Quadrant 4 (bottom-right): Diagonal lines (45° right tilt)
-    - Lines maintain strict equal spacing (10 pixels)
+    - Lines maintain strict equal spacing (10 pixels for vertical/horizontal,
+      14 pixels for diagonals to maintain consistent visual density)
     - Simple color palette: black and primary colors
     - Precise mathematical calculation for line placement
 """
