@@ -3,6 +3,26 @@ Where code meets canvas. A collection of generative art, algorithmic drawings, a
 
 ## Artworks
 
+### Sol LeWitt Wall Drawing (Geometric Lines)
+**File:** `sol_lewitt.py`
+
+A homage to Sol LeWitt's "Wall Drawing" series using Python's turtle graphics module. Features:
+- Canvas divided into four quadrants with distinct line orientations
+- Quadrant 1 (top-right): Vertical lines in red
+- Quadrant 2 (top-left): Horizontal lines in blue
+- Quadrant 3 (bottom-left): Diagonal lines tilted 45° left in gold
+- Quadrant 4 (bottom-right): Diagonal lines tilted 45° right in black
+- Strict equal spacing of 10 pixels between lines
+- Precise mathematical calculations using for loops and coordinate geometry
+- Lines fill each quadrant completely without exceeding boundaries
+
+**Run it:**
+```bash
+python sol_lewitt.py
+```
+
+**Requirements:** Python 3.x with tkinter support (standard library only)
+
 ### Starry Night (Van Gogh Inspired)
 **File:** `starry_night.py`
 
