@@ -206,7 +206,7 @@ def draw_tree_texture(t, x, y, height):
         t.goto(x + offset, y + height * 0.2)
         t.pendown()
         
-        for i in range(int(height * 0.6 / 10)):
+        for i in range(int(height * 0.06)):
             curve = math.sin(i * 0.5) * 3
             t.goto(x + offset + curve, y + height * 0.2 + i * 10)
 
