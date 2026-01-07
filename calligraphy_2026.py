@@ -6,7 +6,6 @@ Generates beautiful, colorful calligraphy of "2026 马到成功"
 
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
-from matplotlib.patches import Rectangle
 import numpy as np
 from matplotlib import patheffects
 import os
@@ -30,9 +29,6 @@ def create_colorful_calligraphy():
     text = "2026  马到成功"
     
     # Find Chinese font
-    # First, rebuild the font cache
-    fm._load_fontmanager(try_read_cache=False)
-    
     # Try to find a Chinese font, fallback to default
     chinese_fonts = [
         'WenQuanYi Zen Hei',  # Linux - installed
@@ -46,13 +42,11 @@ def create_colorful_calligraphy():
     ]
     
     font_prop = None
-    font_found = None
     available_fonts = set([f.name for f in fm.fontManager.ttflist])
     
     for font_name in chinese_fonts:
         if font_name in available_fonts:
             font_prop = fm.FontProperties(family=font_name, size=80, weight='bold')
-            font_found = font_name
             print(f"✓ Using font: {font_name}")
             break
     
@@ -65,7 +59,6 @@ def create_colorful_calligraphy():
         for font_file in font_files:
             if os.path.exists(font_file):
                 font_prop = fm.FontProperties(fname=font_file, size=80)
-                font_found = font_file
                 print(f"✓ Using font file: {font_file}")
                 break
     
