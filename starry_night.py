@@ -34,7 +34,7 @@ def draw_starry_night():
     # Setup
     screen = turtle.Screen()
     screen.setup(width=800, height=600)
-    screen.bgcolor("#0d3b66")  # Dark blue background
+    screen.bgcolor("#1a5fb4")  # Blue background from palette
     screen.title("Starry Night - Van Gogh Inspired")
     
     t = turtle.Turtle()
@@ -74,9 +74,8 @@ def draw_swirl_line(t, start_x, start_y):
     t.goto(start_x, start_y)
     t.pendown()
     
-    # Alternate between blue shades for sky swirls
-    colors = ["#1a5fb4", "#2a6fc4", "#3a7fd4"]
-    t.pencolor(colors[int(start_y) % 3])
+    # Use only the specified blue color for sky swirls
+    t.pencolor("#1a5fb4")
     
     # Draw sinusoidal swirl
     for i in range(100):
@@ -90,28 +89,27 @@ def draw_moon_with_halos(t):
     """Draw a glowing yellow moon with soft halos."""
     moon_x, moon_y = 200, 150
     
-    # Draw halos (outer to inner)
-    halo_colors = ["#f7931a", "#f9a03a", "#fbb05a"]
-    halo_sizes = [60, 50, 40]
+    # Draw halos (multiple circles of same color for glow effect)
+    halo_sizes = [60, 50, 40, 30]
     
-    for size, color in zip(halo_sizes, halo_colors):
+    for size in halo_sizes:
         t.penup()
         t.goto(moon_x, moon_y - size)
         t.pendown()
-        t.pencolor(color)
-        t.fillcolor(color)
+        t.pencolor("#f7931a")
+        t.fillcolor("#f7931a")
         t.begin_fill()
         t.circle(size)
         t.end_fill()
     
-    # Draw bright moon center
+    # Draw bright moon center (using same yellow/orange color)
     t.penup()
-    t.goto(moon_x, moon_y - 25)
+    t.goto(moon_x, moon_y - 20)
     t.pendown()
-    t.pencolor("#fff5cc")
-    t.fillcolor("#fff5cc")
+    t.pencolor("#f7931a")
+    t.fillcolor("#f7931a")
     t.begin_fill()
-    t.circle(25)
+    t.circle(20)
     t.end_fill()
 
 
