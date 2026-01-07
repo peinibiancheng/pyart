@@ -154,7 +154,7 @@ def draw_diagonal_left_lines(t, quadrant_size, spacing, color):
     
     # Calculate adjusted spacing for diagonal lines
     # Using spacing * sqrt(2) to maintain consistent visual density across all quadrants
-    diagonal_spacing = int(spacing * SQRT_2)
+    diagonal_spacing = round(spacing * SQRT_2)
     
     # Draw parallel diagonal lines
     # Strategy: Start from points along the bottom and left edges,
@@ -204,7 +204,7 @@ def draw_diagonal_right_lines(t, quadrant_size, spacing, color):
     
     # Calculate adjusted spacing for diagonal lines
     # Using spacing * sqrt(2) to maintain consistent visual density across all quadrants
-    diagonal_spacing = int(spacing * SQRT_2)
+    diagonal_spacing = round(spacing * SQRT_2)
     
     # Draw parallel diagonal lines
     # Strategy: Start from points along the top and left edges,
