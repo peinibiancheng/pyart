@@ -7,7 +7,7 @@ Usage:
 
 Requirements:
     - Python 3.x with tkinter support
-    - Standard library only (turtle, math)
+    - Standard library only (turtle, math, random)
 
 Features:
     - Swirling sky patterns using sine/cosine waves (mimicking brushstrokes)
@@ -18,6 +18,7 @@ Features:
 
 import turtle
 import math
+import random
 
 
 def draw_starry_night():
@@ -116,7 +117,6 @@ def draw_moon_with_halos(t):
 
 def draw_stars(t):
     """Draw small stars scattered across the sky."""
-    import random
     random.seed(42)  # For reproducibility
     
     t.pensize(1)
