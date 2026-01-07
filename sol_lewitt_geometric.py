@@ -141,9 +141,14 @@ def draw_circle_hatched(t, x, y, size, color, density, angle):
     """Draw a circle outline filled with parallel hatch lines."""
     radius = size / 2
     
+    # Circle will be centered at (x + radius, y + radius)
+    # turtle.circle() draws from the bottom of the circle when heading is 90
+    center_x = x + radius
+    center_y = y + radius
+    
     # Draw outline
     t.penup()
-    t.goto(x + radius, y)
+    t.goto(center_x, center_y - radius)
     t.pendown()
     t.pencolor(color)
     t.pensize(3)
@@ -151,7 +156,7 @@ def draw_circle_hatched(t, x, y, size, color, density, angle):
     t.circle(radius)
     
     # Draw hatch lines
-    draw_hatch_in_circle(t, x + radius, y, radius, color, density, angle)
+    draw_hatch_in_circle(t, center_x, center_y, radius, color, density, angle)
 
 
 def draw_hatch_in_square(t, x, y, size, color, density, angle):
@@ -163,6 +168,8 @@ def draw_hatch_in_square(t, x, y, size, color, density, angle):
     spacing = density
     
     # Calculate the diagonal length for proper coverage when rotated
+    # Using 1.5 * size ensures diagonal lines extend beyond square boundaries
+    # (actual diagonal is sqrt(2) * size ≈ 1.414, but 1.5 provides margin)
     diagonal = size * 1.5
     
     # Save original position
@@ -288,16 +295,17 @@ def draw_hatch_in_triangle(t, x, y, size, color, density, angle):
         y_pos += spacing
 
 
-def draw_hatch_in_circle(t, x, y, radius, color, density, angle):
-    """Fill a circle with parallel hatch lines."""
+def draw_hatch_in_circle(t, cx, cy, radius, color, density, angle):
+    """Fill a circle with parallel hatch lines.
+    
+    Args:
+        cx, cy: Circle center coordinates
+        radius: Circle radius
+    """
     t.pensize(1)
     t.pencolor(color)
     
     spacing = density
-    
-    # Circle center
-    cx = x
-    cy = y + radius
     
     t.penup()
     
