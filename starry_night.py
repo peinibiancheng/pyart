@@ -1,6 +1,19 @@
 """
 Van Gogh 'Starry Night'-inspired artwork using Python's turtle module.
 Generates swirling sky patterns, cypress trees, and a glowing moon.
+
+Usage:
+    python starry_night.py
+
+Requirements:
+    - Python 3.x with tkinter support
+    - Standard library only (turtle, math)
+
+Features:
+    - Swirling sky patterns using sine/cosine waves (mimicking brushstrokes)
+    - Stylized black cypress trees (flame-like) in foreground
+    - Glowing yellow moon with soft halos
+    - Color palette: #1a5fb4 (blue), #f7931a (orange/yellow), and black
 """
 
 import turtle
