@@ -214,24 +214,33 @@ def draw_hatch_in_square(t, x, y, size, color, density, angle):
                 t.penup()
     elif angle == 135:  # Diagonal lines (top-left to bottom-right)
         # Draw lines parallel to diagonal from top-left to bottom-right
+        # For lines with slope -1, we parameterize as: x - y = offset
         for offset in range(-size, size + 1, spacing):
             points = []
             
-            # Check intersection with left edge (x = x)
-            if 0 <= offset <= size:
-                points.append((x, y + offset))
+            # Check intersection with left edge (x = x_origin)
+            # When x = x_origin, y = x_origin - offset
+            y_left = x - offset
+            if y <= y_left <= y + size:
+                points.append((x, y_left))
             
-            # Check intersection with top edge (y = y + size)
-            if 0 <= offset <= size:
-                points.append((x + offset, y + size))
+            # Check intersection with top edge (y = y_origin + size)
+            # When y = y_origin + size, x = y_origin + size + offset
+            x_top = y + size + offset
+            if x <= x_top <= x + size:
+                points.append((x_top, y + size))
             
-            # Check intersection with right edge (x = x + size)
-            if 0 <= size - offset <= size:
-                points.append((x + size, y + size - offset))
+            # Check intersection with right edge (x = x_origin + size)
+            # When x = x_origin + size, y = x_origin + size - offset
+            y_right = x + size - offset
+            if y <= y_right <= y + size:
+                points.append((x + size, y_right))
             
-            # Check intersection with bottom edge (y = y)
-            if 0 <= offset - size <= size:
-                points.append((x + size + offset - size, y))
+            # Check intersection with bottom edge (y = y_origin)
+            # When y = y_origin, x = y_origin + offset
+            x_bottom = y + offset
+            if x <= x_bottom <= x + size:
+                points.append((x_bottom, y))
             
             # Draw line between valid intersection points (should be exactly 2)
             if len(points) >= 2:
