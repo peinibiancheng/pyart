@@ -186,52 +186,58 @@ def draw_hatch_in_square(t, x, y, size, color, density, angle):
             t.penup()
             x_pos += spacing
     elif angle == 45:  # Diagonal lines (bottom-left to top-right)
-        # Draw lines parallel to diagonal
-        for offset in range(-int(diagonal), int(diagonal), spacing):
-            # Calculate start and end points for diagonal lines
+        # Draw lines parallel to diagonal from bottom-left to top-right
+        for offset in range(-size, size + 1, spacing):
             points = []
-            # Check all four sides for intersections
-            # Bottom edge
+            
+            # Check intersection with bottom edge (y = y)
             if 0 <= offset <= size:
                 points.append((x + offset, y))
-            # Left edge
+            
+            # Check intersection with left edge (x = x)
             if 0 <= -offset <= size:
                 points.append((x, y - offset))
-            # Top edge
-            if 0 <= offset + size <= size * 2:
+            
+            # Check intersection with top edge (y = y + size)
+            if 0 <= offset - size <= size:
                 points.append((x + offset - size, y + size))
-            # Right edge
+            
+            # Check intersection with right edge (x = x + size)
             if 0 <= size - offset <= size:
                 points.append((x + size, y + size - offset))
             
-            # Draw line between valid intersection points
+            # Draw line between valid intersection points (should be exactly 2)
             if len(points) >= 2:
                 t.goto(points[0][0], points[0][1])
                 t.pendown()
-                t.goto(points[1][0], points[1][1])
+                t.goto(points[-1][0], points[-1][1])
                 t.penup()
     elif angle == 135:  # Diagonal lines (top-left to bottom-right)
-        # Draw lines parallel to opposite diagonal
-        for offset in range(-int(diagonal), int(diagonal), spacing):
+        # Draw lines parallel to diagonal from top-left to bottom-right
+        for offset in range(-size, size + 1, spacing):
             points = []
-            # Top edge
-            if 0 <= offset <= size:
-                points.append((x + offset, y + size))
-            # Left edge
+            
+            # Check intersection with left edge (x = x)
             if 0 <= offset <= size:
                 points.append((x, y + offset))
-            # Bottom edge
-            if 0 <= size + offset <= size * 2:
-                points.append((x + size + offset, y))
-            # Right edge
-            if 0 <= size * 2 - offset <= size * 2:
-                points.append((x + size, y - offset + size))
             
-            # Draw line between valid intersection points
+            # Check intersection with top edge (y = y + size)
+            if 0 <= offset <= size:
+                points.append((x + offset, y + size))
+            
+            # Check intersection with right edge (x = x + size)
+            if 0 <= size - offset <= size:
+                points.append((x + size, y + size - offset))
+            
+            # Check intersection with bottom edge (y = y)
+            if 0 <= offset - size <= size:
+                points.append((x + size + offset - size, y))
+            
+            # Draw line between valid intersection points (should be exactly 2)
             if len(points) >= 2:
                 t.goto(points[0][0], points[0][1])
                 t.pendown()
-                t.goto(points[1][0], points[1][1])
+                t.goto(points[-1][0], points[-1][1])
                 t.penup()
 
 
@@ -250,44 +256,27 @@ def draw_hatch_in_triangle(t, x, y, size, color, density, angle):
     
     t.penup()
     
-    # Simple horizontal hatching for triangle
-    if angle == 0 or angle == 90:
-        y_pos = y
-        while y_pos <= v3[1]:
-            # Calculate line intersections with triangle edges
-            # Left edge: from v1 to v3
-            # Right edge: from v2 to v3
-            
-            progress = (y_pos - y) / (v3[1] - y) if (v3[1] - y) != 0 else 0
-            progress = max(0, min(1, progress))
-            
-            x_left = v1[0] + (v3[0] - v1[0]) * progress
-            x_right = v2[0] + (v3[0] - v2[0]) * progress
-            
-            if x_left <= x_right:
-                t.goto(x_left, y_pos)
-                t.pendown()
-                t.goto(x_right, y_pos)
-                t.penup()
-            
-            y_pos += spacing
-    else:  # Diagonal hatching
-        # For simplicity, use horizontal lines for triangles regardless of angle
-        y_pos = y
-        while y_pos <= v3[1]:
-            progress = (y_pos - y) / (v3[1] - y) if (v3[1] - y) != 0 else 0
-            progress = max(0, min(1, progress))
-            
-            x_left = v1[0] + (v3[0] - v1[0]) * progress
-            x_right = v2[0] + (v3[0] - v2[0]) * progress
-            
-            if x_left <= x_right:
-                t.goto(x_left, y_pos)
-                t.pendown()
-                t.goto(x_right, y_pos)
-                t.penup()
-            
-            y_pos += spacing
+    # Horizontal hatching for triangle (vertical/diagonal patterns simplified to horizontal)
+    # This provides cleaner visual result for triangular shapes
+    y_pos = y
+    while y_pos <= v3[1]:
+        # Calculate line intersections with triangle edges
+        # Left edge: from v1 to v3
+        # Right edge: from v2 to v3
+        
+        progress = (y_pos - y) / (v3[1] - y) if (v3[1] - y) != 0 else 0
+        progress = max(0, min(1, progress))
+        
+        x_left = v1[0] + (v3[0] - v1[0]) * progress
+        x_right = v2[0] + (v3[0] - v2[0]) * progress
+        
+        if x_left <= x_right:
+            t.goto(x_left, y_pos)
+            t.pendown()
+            t.goto(x_right, y_pos)
+            t.penup()
+        
+        y_pos += spacing
 
 
 def draw_hatch_in_circle(t, x, y, radius, color, density, angle):
