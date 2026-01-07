@@ -21,7 +21,12 @@ Features:
     - Precise mathematical calculation for line placement
 """
 
+import math
 import turtle
+
+
+# Constant for diagonal line spacing adjustment (sqrt(2))
+SQRT_2 = math.sqrt(2)
 
 
 def draw_sol_lewitt():
@@ -60,7 +65,7 @@ def draw_sol_lewitt():
     # Quadrant 2: Top-left - Horizontal lines (blue)
     draw_horizontal_lines(t, quadrant_size, line_spacing, color="blue")
     
-    # Quadrant 3: Bottom-left - Diagonal lines 45° left (yellow)
+    # Quadrant 3: Bottom-left - Diagonal lines 45° left (gold)
     draw_diagonal_left_lines(t, quadrant_size, line_spacing, color="#FFD700")
     
     # Quadrant 4: Bottom-right - Diagonal lines 45° right (black)
@@ -150,7 +155,7 @@ def draw_diagonal_left_lines(t, quadrant_size, spacing, color):
     
     # Calculate adjusted spacing for diagonal lines
     # For 45° diagonals, perpendicular spacing = spacing * sqrt(2) / 2, but we'll use direct spacing
-    diagonal_spacing = int(spacing * 1.414)  # Adjust spacing for visual consistency
+    diagonal_spacing = int(spacing * SQRT_2)  # Adjust spacing for visual consistency
     
     # Draw diagonals starting from the left edge
     for offset in range(-quadrant_size, quadrant_size, diagonal_spacing):
@@ -206,7 +211,7 @@ def draw_diagonal_right_lines(t, quadrant_size, spacing, color):
     # The lines run from upper-left to lower-right (slope = -1)
     
     # Calculate adjusted spacing for diagonal lines
-    diagonal_spacing = int(spacing * 1.414)  # Adjust spacing for visual consistency
+    diagonal_spacing = int(spacing * SQRT_2)  # Adjust spacing for visual consistency
     
     # Draw diagonals starting from various positions
     for offset in range(-quadrant_size, quadrant_size, diagonal_spacing):
