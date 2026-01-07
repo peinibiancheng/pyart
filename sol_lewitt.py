@@ -150,47 +150,40 @@ def draw_diagonal_left_lines(t, quadrant_size, spacing, color):
     t.pencolor(color)
     
     # Quadrant 3 boundaries: x from -quadrant_size to 0, y from -quadrant_size to 0
-    # For 45° left diagonal, we need lines from bottom-left to top-right within the quadrant
-    # The lines run from lower-left to upper-right (slope = 1)
+    # For 45° left diagonal, draw lines with slope 1 (from lower-left to upper-right)
     
     # Calculate adjusted spacing for diagonal lines
-    # For 45° diagonals, perpendicular spacing = spacing * sqrt(2) / 2, but we'll use direct spacing
-    diagonal_spacing = int(spacing * SQRT_2)  # Adjust spacing for visual consistency
+    # Using spacing * sqrt(2) to maintain consistent visual density across all quadrants
+    diagonal_spacing = int(spacing * SQRT_2)
     
-    # Draw diagonals starting from the left edge
-    for offset in range(-quadrant_size, quadrant_size, diagonal_spacing):
+    # Draw parallel diagonal lines
+    # Strategy: Start from points along the bottom and left edges,
+    # draw upward at 45° until hitting the top or right edge
+    for offset in range(0, quadrant_size * 2, diagonal_spacing):
         t.penup()
-        # Start point on left edge or bottom edge
-        if offset < -quadrant_size:
-            start_x = -quadrant_size
-            start_y = offset + quadrant_size
-        else:
-            start_x = offset - quadrant_size
+        
+        # Determine start and end points
+        if offset < quadrant_size:
+            # Start on bottom edge, move left to right
+            start_x = -quadrant_size + offset
             start_y = -quadrant_size
-        
-        # End point on top edge or right edge (x=0)
-        if offset < 0:
-            end_x = offset
-            end_y = 0
+            # Move up-right at 45° for distance = min(quadrant_size, remaining space)
+            distance = min(quadrant_size, quadrant_size - offset)
+            end_x = start_x + distance
+            end_y = start_y + distance
         else:
-            end_x = 0
-            end_y = offset - quadrant_size
+            # Start on left edge, move bottom to top
+            start_x = -quadrant_size
+            start_y = -quadrant_size + (offset - quadrant_size)
+            # Move up-right at 45° until hitting top or right edge
+            distance = min(quadrant_size, quadrant_size - (offset - quadrant_size))
+            end_x = start_x + distance
+            end_y = start_y + distance
         
-        # Only draw if line is within quadrant 3
-        if start_x >= -quadrant_size and start_y >= -quadrant_size:
-            t.goto(start_x, start_y)
-            t.pendown()
-            # Draw to the endpoint, clipping at quadrant boundaries
-            if end_x <= 0 and end_y <= 0:
-                t.goto(end_x, end_y)
-            elif end_x > 0:
-                # Clip at x=0
-                clip_y = start_y + (0 - start_x)
-                t.goto(0, clip_y)
-            elif end_y > 0:
-                # Clip at y=0
-                clip_x = start_x + (0 - start_y)
-                t.goto(clip_x, 0)
+        # Draw the line
+        t.goto(start_x, start_y)
+        t.pendown()
+        t.goto(end_x, end_y)
 
 
 def draw_diagonal_right_lines(t, quadrant_size, spacing, color):
@@ -207,46 +200,46 @@ def draw_diagonal_right_lines(t, quadrant_size, spacing, color):
     t.pencolor(color)
     
     # Quadrant 4 boundaries: x from 0 to quadrant_size, y from -quadrant_size to 0
-    # For 45° right diagonal, we need lines from top-left to bottom-right within the quadrant
-    # The lines run from upper-left to lower-right (slope = -1)
+    # For 45° right diagonal, we need lines from top-left to bottom-right (slope = -1)
     
     # Calculate adjusted spacing for diagonal lines
-    diagonal_spacing = int(spacing * SQRT_2)  # Adjust spacing for visual consistency
+    # Using spacing * sqrt(2) to maintain consistent visual density across all quadrants
+    diagonal_spacing = int(spacing * SQRT_2)
     
-    # Draw diagonals starting from various positions
-    for offset in range(-quadrant_size, quadrant_size, diagonal_spacing):
+    # Draw diagonals parallel to the line y = -x
+    # Start from top edge and left edge
+    for offset in range(-quadrant_size, quadrant_size * 2, diagonal_spacing):
         t.penup()
-        # Start point on left edge (x=0) or top edge (y=0)
-        if offset < 0:
+        
+        # Calculate intersection with quadrant boundaries
+        # Line equation: y + x = offset (rearranged: y = -x + offset)
+        
+        # Start point: intersection with top (y=0) or left (x=0)
+        if offset <= 0:
+            # Start from left edge
             start_x = 0
-            start_y = -offset
+            start_y = offset
         else:
+            # Start from top edge
             start_x = offset
             start_y = 0
         
-        # End point on bottom edge or right edge
-        if offset < 0:
-            end_x = -offset
+        # End point: intersection with bottom (y=-quadrant_size) or right (x=quadrant_size)
+        if offset <= quadrant_size:
+            # End at bottom edge
+            end_x = offset + quadrant_size
             end_y = -quadrant_size
         else:
+            # End at right edge
             end_x = quadrant_size
-            end_y = -(quadrant_size - offset)
+            end_y = offset - quadrant_size
         
-        # Only draw if line is within quadrant 4
-        if start_x <= quadrant_size and start_y >= -quadrant_size:
+        # Only draw if both points are within quadrant 4
+        if (start_x >= 0 and start_y >= -quadrant_size and
+            end_x <= quadrant_size and end_y >= -quadrant_size):
             t.goto(start_x, start_y)
             t.pendown()
-            # Draw to the endpoint, clipping at quadrant boundaries
-            if end_x <= quadrant_size and end_y >= -quadrant_size:
-                t.goto(end_x, end_y)
-            elif end_x > quadrant_size:
-                # Clip at x=quadrant_size
-                clip_y = start_y - (quadrant_size - start_x)
-                t.goto(quadrant_size, clip_y)
-            elif end_y < -quadrant_size:
-                # Clip at y=-quadrant_size
-                clip_x = start_x + (start_y + quadrant_size)
-                t.goto(clip_x, -quadrant_size)
+            t.goto(end_x, end_y)
 
 
 if __name__ == "__main__":
