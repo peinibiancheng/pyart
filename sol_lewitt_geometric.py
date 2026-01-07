@@ -272,8 +272,9 @@ def draw_hatch_in_triangle(t, x, y, size, color, density, angle):
     
     t.penup()
     
-    # Horizontal hatching for triangle (vertical/diagonal patterns simplified to horizontal)
-    # This provides cleaner visual result for triangular shapes
+    # Horizontal hatching for triangles (angle parameter ignored for simplicity)
+    # All angles simplified to horizontal lines for cleaner visual result with triangular shapes
+    # This is an intentional design choice to maintain visual clarity
     y_pos = y
     while y_pos <= v3[1]:
         # Calculate line intersections with triangle edges
@@ -310,7 +311,8 @@ def draw_hatch_in_circle(t, cx, cy, radius, color, density, angle):
     t.penup()
     
     # Draw horizontal or vertical lines depending on angle
-    if angle == 0 or angle == 45:  # Horizontal lines
+    # For circles, we simplify diagonal angles to horizontal/vertical for cleaner appearance
+    if angle == 0 or angle == 45:  # Horizontal lines (0° and simplified 45°)
         y_pos = cy - radius
         while y_pos <= cy + radius:
             # Calculate x intersections with circle: (x-cx)^2 + (y-cy)^2 = r^2
@@ -326,7 +328,7 @@ def draw_hatch_in_circle(t, cx, cy, radius, color, density, angle):
                 t.penup()
             
             y_pos += spacing
-    else:  # Vertical lines
+    else:  # Vertical lines (90° and simplified 135°)
         x_pos = cx - radius
         while x_pos <= cx + radius:
             # Calculate y intersections with circle
