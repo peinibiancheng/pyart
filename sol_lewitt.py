@@ -200,46 +200,40 @@ def draw_diagonal_right_lines(t, quadrant_size, spacing, color):
     t.pencolor(color)
     
     # Quadrant 4 boundaries: x from 0 to quadrant_size, y from -quadrant_size to 0
-    # For 45° right diagonal, we need lines from top-left to bottom-right (slope = -1)
+    # For 45° right diagonal, draw lines with slope -1 (from upper-left to lower-right)
     
     # Calculate adjusted spacing for diagonal lines
     # Using spacing * sqrt(2) to maintain consistent visual density across all quadrants
     diagonal_spacing = int(spacing * SQRT_2)
     
-    # Draw diagonals parallel to the line y = -x
-    # Start from top edge and left edge
-    for offset in range(-quadrant_size, quadrant_size * 2, diagonal_spacing):
+    # Draw parallel diagonal lines
+    # Strategy: Start from points along the top and left edges,
+    # draw downward at 45° until hitting the bottom or right edge
+    for offset in range(0, quadrant_size * 2, diagonal_spacing):
         t.penup()
         
-        # Calculate intersection with quadrant boundaries
-        # Line equation: y + x = offset (rearranged: y = -x + offset)
-        
-        # Start point: intersection with top (y=0) or left (x=0)
-        if offset <= 0:
-            # Start from left edge
-            start_x = 0
-            start_y = offset
-        else:
-            # Start from top edge
+        # Determine start and end points
+        if offset < quadrant_size:
+            # Start on top edge, move left to right
             start_x = offset
             start_y = 0
-        
-        # End point: intersection with bottom (y=-quadrant_size) or right (x=quadrant_size)
-        if offset <= quadrant_size:
-            # End at bottom edge
-            end_x = offset + quadrant_size
-            end_y = -quadrant_size
+            # Move down-right at 45° for distance = min(quadrant_size, remaining space)
+            distance = min(quadrant_size, quadrant_size - offset)
+            end_x = start_x + distance
+            end_y = start_y - distance
         else:
-            # End at right edge
-            end_x = quadrant_size
-            end_y = offset - quadrant_size
+            # Start on left edge, move top to bottom
+            start_x = 0
+            start_y = -(offset - quadrant_size)
+            # Move down-right at 45° until hitting bottom or right edge
+            distance = min(quadrant_size, quadrant_size - (offset - quadrant_size))
+            end_x = start_x + distance
+            end_y = start_y - distance
         
-        # Only draw if both points are within quadrant 4
-        if (start_x >= 0 and start_y >= -quadrant_size and
-            end_x <= quadrant_size and end_y >= -quadrant_size):
-            t.goto(start_x, start_y)
-            t.pendown()
-            t.goto(end_x, end_y)
+        # Draw the line
+        t.goto(start_x, start_y)
+        t.pendown()
+        t.goto(end_x, end_y)
 
 
 if __name__ == "__main__":
