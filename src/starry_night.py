@@ -63,7 +63,7 @@ def create_vector_field(X, Y):
     return U, V
 
 
-def create_brushstrokes(X, Y, U, V, num_strokes=5000):
+def create_brushstrokes(X, Y, U, V, num_strokes=5000, random_seed=42):
     """
     Create thousands of short, thick brushstrokes along flow lines.
     
@@ -75,6 +75,8 @@ def create_brushstrokes(X, Y, U, V, num_strokes=5000):
         Vector field components
     num_strokes : int
         Number of brushstrokes to create
+    random_seed : int, optional
+        Random seed for reproducibility
         
     Returns:
     --------
@@ -85,7 +87,7 @@ def create_brushstrokes(X, Y, U, V, num_strokes=5000):
     linewidths : list
         List of linewidths for each segment
     """
-    np.random.seed(42)
+    rng = np.random.RandomState(random_seed)
     
     segments = []
     colors = []
@@ -103,8 +105,8 @@ def create_brushstrokes(X, Y, U, V, num_strokes=5000):
     
     for i in range(num_strokes):
         # Random starting position
-        x_start = np.random.uniform(0, 1)
-        y_start = np.random.uniform(0, 1)
+        x_start = rng.uniform(0, 1)
+        y_start = rng.uniform(0, 1)
         
         # Find vector field direction at this point
         x_idx = int(x_start * (X.shape[1] - 1))
@@ -122,7 +124,7 @@ def create_brushstrokes(X, Y, U, V, num_strokes=5000):
             u_norm, v_norm = 1, 0
         
         # Create short stroke
-        stroke_length = np.random.uniform(0.01, 0.03)
+        stroke_length = rng.uniform(0.01, 0.03)
         x_end = x_start + u_norm * stroke_length
         y_end = y_start + v_norm * stroke_length
         
@@ -131,26 +133,31 @@ def create_brushstrokes(X, Y, U, V, num_strokes=5000):
         # Choose color based on position (blues in upper areas, yellows in stars/moon)
         if y_start > 0.7 or (0.6 < x_start < 0.8 and 0.5 < y_start < 0.7):
             # Star/moon areas - yellows
-            color = np.random.choice(yellows)
-        elif np.random.random() < 0.1:
+            color = rng.choice(yellows)
+        elif rng.random() < 0.1:
             # Occasional yellow strokes in sky for variety
-            color = np.random.choice(yellows)
+            color = rng.choice(yellows)
         else:
             # Sky areas - blues
-            color = np.random.choice(blues)
+            color = rng.choice(blues)
         
         colors.append(color)
         
         # Varying thickness for brushstroke effect
-        linewidth = np.random.uniform(1.5, 4.0)
+        linewidth = rng.uniform(1.5, 4.0)
         linewidths.append(linewidth)
     
     return segments, colors, linewidths
 
 
-def draw_starry_night():
+def draw_starry_night(random_seed=42):
     """
     Generate a Van Gogh 'Starry Night'-inspired artwork using Matplotlib.
+    
+    Parameters:
+    -----------
+    random_seed : int, optional
+        Random seed for reproducibility
     
     Creates:
     - Swirling vector field defining flow patterns
@@ -176,18 +183,18 @@ def draw_starry_night():
     stream.lines.set_alpha(0.3)
     
     # Create and plot brushstrokes
-    segments, colors, linewidths = create_brushstrokes(X, Y, U, V, num_strokes=5000)
+    segments, colors, linewidths = create_brushstrokes(X, Y, U, V, num_strokes=5000, random_seed=random_seed)
     
     lc = LineCollection(segments, colors=colors, linewidths=linewidths,
                         alpha=0.7, capstyle='round')
     ax.add_collection(lc)
     
     # Add some bright stars
-    np.random.seed(42)
+    rng = np.random.RandomState(random_seed)
     num_stars = 15
     for i in range(num_stars):
-        star_x = np.random.uniform(0.1, 0.9)
-        star_y = np.random.uniform(0.6, 0.95)
+        star_x = rng.uniform(0.1, 0.9)
+        star_y = rng.uniform(0.6, 0.95)
         
         # Create star with radiating strokes
         num_rays = 8
