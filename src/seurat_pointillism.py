@@ -16,34 +16,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def create_dot_cluster(x_center, y_center, num_dots, colors, size_range=(1, 3), spread=0.5):
-    """
-    Create a cluster of dots with slightly different colors for optical mixing.
-    
-    Args:
-        x_center: X coordinate of cluster center
-        y_center: Y coordinate of cluster center
-        num_dots: Number of dots in the cluster
-        colors: List of colors to randomly choose from
-        size_range: Tuple of (min_size, max_size) for dot sizes
-        spread: How spread out the dots should be
-    
-    Returns:
-        Tuple of (x_coords, y_coords, colors_array, sizes_array)
-    """
-    # Generate random positions around center with normal distribution
-    x_coords = np.random.normal(x_center, spread, num_dots)
-    y_coords = np.random.normal(y_center, spread, num_dots)
-    
-    # Randomly select colors from the palette
-    colors_array = np.random.choice(colors, num_dots)
-    
-    # Generate random sizes
-    sizes_array = np.random.uniform(size_range[0], size_range[1], num_dots)
-    
-    return x_coords, y_coords, colors_array, sizes_array
-
-
 def draw_sky(ax, width, height, num_dots=80000):
     """
     Draw sky using blue and white dots for optical mixing.

@@ -45,7 +45,6 @@ def validate_pointillism_code():
     print("-" * 60)
     
     required_functions = {
-        'create_dot_cluster': '创建点簇 / Create dot cluster',
         'draw_sky': '绘制天空 / Draw sky',
         'draw_grass': '绘制草地 / Draw grass',
         'draw_water': '绘制水面 / Draw water',
@@ -144,9 +143,13 @@ def validate_pointillism_code():
         principles.append(False)
     
     # 检查是否有光学混色
-    if 'yellow' in code.lower() and 'blue' in code.lower() and 'optical' in code.lower():
-        print("  ✓ 实现光学混色效果")
-        print("    Implements optical color mixing")
+    has_yellow = '#FFD700' in code or '#FFF44F' in code or '#FFEB3B' in code
+    has_blue_for_mixing = '#0066CC' in code or '#1E90FF' in code or '#4169E1' in code
+    has_optical_comment = 'optical' in code.lower() and 'mixing' in code.lower()
+    
+    if has_yellow and has_blue_for_mixing and has_optical_comment:
+        print("  ✓ 实现光学混色效果（黄色+蓝色）")
+        print("    Implements optical color mixing (yellow+blue)")
         principles.append(True)
     else:
         print("  ⚠ 可能未实现光学混色")
@@ -154,13 +157,13 @@ def validate_pointillism_code():
         principles.append(False)
     
     # 检查是否使用高DPI
-    if 'dpi=' in code and '150' in code:
-        print("  ✓ 使用高DPI输出")
-        print("    Using high DPI output")
+    if 'dpi=150' in code or 'dpi = 150' in code:
+        print("  ✓ 使用高DPI输出 (150)")
+        print("    Using high DPI output (150)")
         principles.append(True)
     else:
-        print("  ⚠ 可能未使用高DPI")
-        print("    May not use high DPI")
+        print("  ⚠ 可能未使用150 DPI")
+        print("    May not use 150 DPI")
         principles.append(False)
     
     # 最终结果 / Final result
