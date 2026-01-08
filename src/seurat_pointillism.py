@@ -259,48 +259,49 @@ def main():
     # Set up high DPI figure for better quality
     fig, ax = plt.subplots(figsize=(12, 9), dpi=150)
     
-    # Set canvas dimensions
-    width, height = 100, 75
-    
-    # Set white background
-    fig.patch.set_facecolor('white')
-    ax.set_facecolor('white')
-    
-    print("Drawing sky... / 绘制天空...")
-    draw_sky(ax, width, height)
-    
-    print("Drawing grass with optical color mixing... / 绘制草地（光学混色）...")
-    draw_grass(ax, width, height)
-    
-    print("Drawing water... / 绘制水面...")
-    draw_water(ax, width, height)
-    
-    print("Drawing trees... / 绘制树木...")
-    draw_trees(ax, width, height)
-    
-    print("Drawing figures... / 绘制人物...")
-    draw_figures(ax, width, height)
-    
-    # Remove axes for cleaner look
-    ax.set_xlim(0, width)
-    ax.set_ylim(0, height)
-    ax.set_aspect('equal')
-    ax.axis('off')
-    
-    plt.tight_layout()
-    
-    print("Complete! / 完成！")
-    
-    # Save the figure
-    output_file = 'seurat_pointillism_matplotlib.png'
-    plt.savefig(output_file, dpi=150, bbox_inches='tight', facecolor='white')
-    print(f"Saved to {output_file}")
-    
-    print("\nNote: The painting uses optical color mixing - notice how yellow and blue")
-    print("dots create the illusion of green in the grass when viewed from a distance!")
-    
-    # Close the figure to free memory
-    plt.close(fig)
+    try:
+        # Set canvas dimensions
+        width, height = 100, 75
+        
+        # Set white background
+        fig.patch.set_facecolor('white')
+        ax.set_facecolor('white')
+        
+        print("Drawing sky... / 绘制天空...")
+        draw_sky(ax, width, height)
+        
+        print("Drawing grass with optical color mixing... / 绘制草地（光学混色）...")
+        draw_grass(ax, width, height)
+        
+        print("Drawing water... / 绘制水面...")
+        draw_water(ax, width, height)
+        
+        print("Drawing trees... / 绘制树木...")
+        draw_trees(ax, width, height)
+        
+        print("Drawing figures... / 绘制人物...")
+        draw_figures(ax, width, height)
+        
+        # Remove axes for cleaner look
+        ax.set_xlim(0, width)
+        ax.set_ylim(0, height)
+        ax.set_aspect('equal')
+        ax.axis('off')
+        
+        plt.tight_layout()
+        
+        print("Complete! / 完成！")
+        
+        # Save the figure
+        output_file = 'seurat_pointillism_matplotlib.png'
+        plt.savefig(output_file, dpi=150, bbox_inches='tight', facecolor='white')
+        print(f"Saved to {output_file}")
+        
+        print("\nNote: The painting uses optical color mixing - notice how yellow and blue")
+        print("dots create the illusion of green in the grass when viewed from a distance!")
+    finally:
+        # Close the figure to free memory
+        plt.close(fig)
 
 
 if __name__ == "__main__":
