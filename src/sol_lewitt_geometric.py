@@ -348,4 +348,12 @@ def draw_hatch_in_circle(t, cx, cy, radius, color, density, angle):
 
 
 if __name__ == "__main__":
-    draw_sol_lewitt_art()
+    try:
+        draw_sol_lewitt_art()
+    except turtle.Terminator:
+        pass
+    except Exception as e:
+        if "invalid command name" in str(e):
+            pass
+        else:
+            raise

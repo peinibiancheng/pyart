@@ -363,4 +363,12 @@ def draw_success_text(t):
 
 
 if __name__ == "__main__":
-    draw_galloping_horse()
+    try:
+        draw_galloping_horse()
+    except turtle.Terminator:
+        pass
+    except Exception as e:
+        if "invalid command name" in str(e):
+            pass
+        else:
+            raise

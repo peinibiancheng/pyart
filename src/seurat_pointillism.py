@@ -184,4 +184,12 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except turtle.Terminator:
+        pass
+    except Exception as e:
+        if "invalid command name" in str(e):
+            pass
+        else:
+            raise

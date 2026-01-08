@@ -112,4 +112,12 @@ def draw_spot_painting():
 
 
 if __name__ == "__main__":
-    draw_spot_painting()
+    try:
+        draw_spot_painting()
+    except turtle.Terminator:
+        pass
+    except Exception as e:
+        if "invalid command name" in str(e):
+            pass
+        else:
+            raise
