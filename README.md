@@ -35,6 +35,22 @@ Minimalist one-line drawings inspired by Picasso's famous continuous line works 
 python picasso_one_line.py
 ```
 
+### 🎨 Piet Mondrian Composition
+**File:** `mondrian.py`
+
+A Python recreation of Piet Mondrian's iconic geometric abstract art style using matplotlib. Features:
+- Recursive space division creating rectangles of varying sizes
+- Mondrian's signature color palette: Red (#DC143C), Blue (#0047AB), Yellow (#FFD700), and White
+- Thick black borders (linewidth 6) between all rectangles
+- Composition reminiscent of "Composition with Red Blue and Yellow"
+- Mathematical approach to art with random variations in each generation
+
+**Run it:**
+```bash
+python mondrian.py
+```
+```
+
 ### 🐴 Galloping Horse 2026
 **File:** `galloping_horse_2026.py`
 

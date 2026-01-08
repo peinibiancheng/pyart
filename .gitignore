@@ -209,3 +209,5 @@ gallery/
 
 # Generated artwork output files
 *.png
+*.jpg
+*.jpeg
