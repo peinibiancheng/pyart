@@ -121,11 +121,12 @@ python sol_lewitt.py
 ### Spot Painting (Damien Hirst Inspired)
 **File:** `spot_painting.py`
 
-A Python recreation of Damien Hirst's iconic "Spot Paintings" using the turtle graphics module. Features:
-- 10x10 grid of perfectly aligned colored circles
-- High-saturation pop art color palette with random color selection
+A Python recreation of Damien Hirst's iconic "Spot Paintings" using Matplotlib. Features:
+- 12x12 grid of perfectly aligned colored circles
+- Randomly assigned vibrant colors for each spot
 - Mathematical grid layout with consistent spacing and centering
-- Clean, minimal aesthetic with solid fills and no borders
+- Pure white background with all axes hidden
+- Clean, minimal aesthetic with solid fills and no outlines
 - Algorithmic composition inspired by Hirst's systematic approach to art
 
 **Run it:**
