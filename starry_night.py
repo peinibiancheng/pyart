@@ -36,6 +36,9 @@ def draw_starry_night():
     screen.setup(width=800, height=600)
     screen.bgcolor("black")  # Black night sky background from palette
     screen.title("Starry Night - Van Gogh Inspired")
+    screen.tracer(2)  # Update screen every 10th drawing action for moderate speed
+
+
     
     t = turtle.Turtle()
     t.speed(0)  # Fastest drawing speed

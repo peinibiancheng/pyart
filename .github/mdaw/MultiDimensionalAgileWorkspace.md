@@ -35,7 +35,7 @@
 
 1.  **日常工作**: 在各自的工作树（Worktree）中正常 `commit`。
 2.  **成果交付 (Merge)**:
-    - 切换回主空间: `cd e:\Code\pyart`
+    - 切换回主空间: `cd ../pyart`
     - 手动合并（保留分支）:
       ```powershell
       git checkout develop
@@ -43,7 +43,7 @@
       # 可选: git push origin develop
       ```
 3.  **反向同步 (Update)**:
-    - 切换回角色空间: `cd e:\Code\pyart-architect`
+    - 切换回角色空间: `cd ../pyart-architect`
     - 拉取主干更新: `git pull origin develop` (或 `git merge develop`)
     - *目的: 确保架构师基于最新的代码库进行设计。*
 
