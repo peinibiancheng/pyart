@@ -16,7 +16,10 @@ import os
 def validate_pointillism_code():
     """验证点彩画代码结构 / Validate pointillist code structure"""
     
-    file_path = "seurat_pointillism.py"
+    # Calculate path relative to this script
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(current_dir, "../src/seurat_pointillism.py")
+
     
     if not os.path.exists(file_path):
         print(f"❌ 文件不存在 / File not found: {file_path}")
