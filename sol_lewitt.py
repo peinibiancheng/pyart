@@ -48,7 +48,7 @@ def draw_sol_lewitt():
     screen.title("Sol LeWitt - Wall Drawing Inspired")
     
     t = turtle.Turtle()
-    t.speed(0)  # Fastest drawing speed
+    t.speed(20)  # Fastest drawing speed
     t.hideturtle()
     
     # Define quadrant dimensions
@@ -238,4 +238,14 @@ def draw_diagonal_right_lines(t, quadrant_size, spacing, color):
 
 
 if __name__ == "__main__":
-    draw_sol_lewitt()
+    try:
+        draw_sol_lewitt()
+    except turtle.Terminator:
+        pass
+    except Exception as e:
+        # Handle case where window is closed during drawing (TclError)
+        if "invalid command name" in str(e):
+            pass
+        else:
+            raise
+

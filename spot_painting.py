@@ -34,10 +34,13 @@ def draw_spot_painting():
     screen.setup(width=600, height=600)
     screen.bgcolor("white")
     screen.title("Spot Painting - Damien Hirst Inspired")
+    # screen.tracer(5)  # Commented out to let t.speed() control the speed
+
     
     # Turtle setup: fastest speed for efficiency
     t = turtle.Turtle()
-    t.speed(0)  # Fastest drawing speed
+    t.speed(20)  # 0 is the fastest animation speed, 1 is slowest, 10 is fast
+
     
     # High-saturation pop art color palette (RGB hex codes)
     # Colors inspired by Damien Hirst's vibrant, bold aesthetic

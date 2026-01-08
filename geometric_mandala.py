@@ -37,9 +37,11 @@ def draw_geometric_mandala():
     screen.setup(width=800, height=800)
     screen.bgcolor("black")
     screen.title("Geometric Mandala")
+    screen.tracer(1)  # Use batch rendering for speed (draws 10 actions per frame)
     
     t = turtle.Turtle()
-    t.speed(0)  # Fastest drawing speed
+    t.speed(20)  # Fastest drawing speed
+
     t.hideturtle()
     
     # Center the drawing
@@ -252,4 +254,12 @@ def draw_center_flower(t, cx, cy):
 
 
 if __name__ == "__main__":
-    draw_geometric_mandala()
+    try:
+        draw_geometric_mandala()
+    except turtle.Terminator:
+        pass
+    except Exception as e:
+        if "invalid command name" in str(e):
+            pass
+        else:
+            raise

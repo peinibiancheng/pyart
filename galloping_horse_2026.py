@@ -37,9 +37,11 @@ def draw_galloping_horse():
     screen.setup(width=800, height=600)
     screen.bgcolor("#f6f5f4")  # Light background
     screen.title("Galloping Horse 2026 - 马到成功")
-    
+    screen.tracer(2)  # Commented out to enable smooth animation for t.speed(1)
+
     t = turtle.Turtle()
-    t.speed(0)  # Fastest drawing speed
+    t.speed(1)  # Fastest drawing speed
+
     t.hideturtle()
     
     # Draw motion lines in background

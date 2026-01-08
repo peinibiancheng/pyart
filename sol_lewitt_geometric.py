@@ -35,7 +35,8 @@ def draw_sol_lewitt_art():
     screen.setup(width=800, height=800)
     screen.bgcolor("white")
     screen.title("Sol LeWitt - Geometric Hatch Lines")
-    screen.tracer(0)  # Disable animation for instant rendering
+    screen.tracer(2)  # Update screen every 2nd drawing action
+
     
     t = turtle.Turtle()
     t.speed(0)
