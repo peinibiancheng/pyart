@@ -33,7 +33,26 @@ An intricate circular pattern combining mathematical precision with artistic bea
 python geometric_mandala.py
 ```
 
-### Sol LeWitt Wall Drawing (Geometric Lines)
+### Sol LeWitt Wall Drawing (Matplotlib)
+**File:** `sol_lewitt_matplotlib.py`
+
+A minimalist homage to Sol LeWitt's "Wall Drawing" series using Matplotlib for high-precision rendering. Features:
+- 2x2 grid layout with dense, parallel lines in each quadrant
+- Top-left: Horizontal lines
+- Top-right: Vertical lines
+- Bottom-left: Diagonal lines (45° northeast)
+- Bottom-right: Diagonal lines (45° southeast)
+- Thin black lines (0.5pt width) with perfect spacing (0.05 units)
+- High-precision ax.plot() for crisp, professional output
+- Shimmering minimalist effect true to LeWitt's conceptual art philosophy
+- Saves high-resolution PNG (300 DPI)
+
+**Run it:**
+```bash
+python sol_lewitt_matplotlib.py
+```
+
+### Sol LeWitt Wall Drawing (Turtle - Geometric Lines)
 **File:** `sol_lewitt.py`
 
 A homage to Sol LeWitt's "Wall Drawing" series using Python's turtle graphics module. Features:
