@@ -127,21 +127,35 @@ def draw_diagonal_lines_ne(ax, spacing, line_width, color):
         # Calculate intersection points with the square boundary
         # For line y = x + offset within square [0,1] x [0,1]
         
+        # Determine where line enters and exits the square
+        # Line enters from either left edge (x=0) or bottom edge (y=0)
+        # Line exits from either right edge (x=1) or top edge (y=1)
+        
         if offset >= 0:
-            # Line intersects bottom edge (y=0) and possibly right edge (x=1)
+            # Line starts at left edge: (0, offset)
             x_start = 0
             y_start = offset
-            x_end = min(1, 1 - offset)
-            y_end = x_end + offset
+            # Line ends at top edge: (1-offset, 1) if offset <= 1
+            if offset <= 1:
+                x_end = 1 - offset
+                y_end = 1
+            else:
+                # offset > 1: line doesn't intersect the square
+                continue
         else:
-            # Line intersects left edge (x=0) and possibly top edge (y=1)
+            # offset < 0: Line starts at bottom edge: (-offset, 0)
             x_start = -offset
             y_start = 0
-            x_end = min(1, 1 - offset)
-            y_end = x_end + offset
+            # Line ends at right edge: (1, 1+offset) if 1+offset <= 1
+            if 1 + offset >= 0:
+                x_end = 1
+                y_end = 1 + offset
+            else:
+                # Line doesn't intersect the square
+                continue
         
-        # Clip to [0, 1] boundaries
-        if 0 <= y_start <= 1 and 0 <= y_end <= 1:
+        # Verify boundaries and draw
+        if 0 <= x_start <= 1 and 0 <= y_start <= 1 and 0 <= x_end <= 1 and 0 <= y_end <= 1:
             ax.plot([x_start, x_end], [y_start, y_end], 
                    color=color, linewidth=line_width)
 
@@ -169,24 +183,33 @@ def draw_diagonal_lines_se(ax, spacing, line_width, color):
         # Calculate intersection points with the square boundary
         # For line y = -x + offset within square [0,1] x [0,1]
         
+        # Determine where line enters and exits the square
+        # Line enters from either left edge (x=0) or top edge (y=1)
+        # Line exits from either right edge (x=1) or bottom edge (y=0)
+        
         if offset <= 1:
-            # Line intersects left edge (x=0) and possibly bottom edge (y=0)
+            # Line starts at left edge: (0, offset)
             x_start = 0
             y_start = offset
-            x_end = min(offset, 1)
-            y_end = offset - x_end
+            # Line ends at bottom edge: (offset, 0)
+            x_end = offset
+            y_end = 0
         else:
-            # Line intersects top edge (y=1) and right edge (x=1)
+            # offset > 1: Line starts at top edge: (offset-1, 1)
             x_start = offset - 1
             y_start = 1
-            x_end = min(1, offset)
-            y_end = offset - x_end
+            # Line ends at right edge: (1, offset-1) if offset <= 2
+            if offset <= 2:
+                x_end = 1
+                y_end = offset - 1
+            else:
+                # Line doesn't intersect the square
+                continue
         
-        # Clip to [0, 1] boundaries
-        if 0 <= x_start <= 1 and 0 <= x_end <= 1:
-            if 0 <= y_start <= 1 and 0 <= y_end <= 1:
-                ax.plot([x_start, x_end], [y_start, y_end], 
-                       color=color, linewidth=line_width)
+        # Verify boundaries and draw
+        if 0 <= x_start <= 1 and 0 <= y_start <= 1 and 0 <= x_end <= 1 and 0 <= y_end <= 1:
+            ax.plot([x_start, x_end], [y_start, y_end], 
+                   color=color, linewidth=line_width)
 
 
 if __name__ == "__main__":
