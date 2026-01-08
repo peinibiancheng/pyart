@@ -7,7 +7,6 @@ Usage:
 
 Requirements:
     - matplotlib>=3.10.0
-    - numpy>=2.0.0
 
 Features:
     - Recursive space division creating rectangles of varying sizes
@@ -19,6 +18,22 @@ Features:
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import random
+
+
+# Mondrian's signature color palette
+# White is repeated to increase its probability in selections
+MONDRIAN_COLORS = [
+    '#FFFFFF',  # White (most common)
+    '#FFFFFF',  # White (increase probability)
+    '#FFFFFF',  # White (increase probability)
+    '#DC143C',  # Red (Crimson)
+    '#0047AB',  # Blue (Cobalt Blue)
+    '#FFD700',  # Yellow (Gold)
+]
+
+# Rectangle division ratios to avoid dividing too close to edges
+MIN_SPLIT_RATIO = 0.3
+MAX_SPLIT_RATIO = 0.7
 
 
 def should_divide(width, height, depth, max_depth=4):
@@ -65,19 +80,9 @@ def divide_rectangle(ax, x, y, width, height, depth=0, max_depth=4):
         depth: Current recursion depth
         max_depth: Maximum recursion depth
     """
-    # Mondrian's signature color palette
-    colors = [
-        '#FFFFFF',  # White (most common)
-        '#FFFFFF',  # White (increase probability)
-        '#FFFFFF',  # White (increase probability)
-        '#DC143C',  # Red (Crimson)
-        '#0047AB',  # Blue (Cobalt Blue)
-        '#FFD700',  # Yellow (Gold)
-    ]
-    
     if not should_divide(width, height, depth, max_depth):
         # Draw the filled rectangle with a random Mondrian color
-        color = random.choice(colors)
+        color = random.choice(MONDRIAN_COLORS)
         rect = patches.Rectangle(
             (x, y), width, height,
             linewidth=6,  # Thick black border
@@ -98,9 +103,7 @@ def divide_rectangle(ax, x, y, width, height, depth=0, max_depth=4):
     
     if divide_vertically:
         # Choose a division point (avoid dividing too close to the edges)
-        min_ratio = 0.3
-        max_ratio = 0.7
-        split_ratio = random.uniform(min_ratio, max_ratio)
+        split_ratio = random.uniform(MIN_SPLIT_RATIO, MAX_SPLIT_RATIO)
         split_x = x + width * split_ratio
         
         # Recursively divide left and right parts
@@ -108,9 +111,7 @@ def divide_rectangle(ax, x, y, width, height, depth=0, max_depth=4):
         divide_rectangle(ax, split_x, y, width * (1 - split_ratio), height, depth + 1, max_depth)
     else:
         # Divide horizontally
-        min_ratio = 0.3
-        max_ratio = 0.7
-        split_ratio = random.uniform(min_ratio, max_ratio)
+        split_ratio = random.uniform(MIN_SPLIT_RATIO, MAX_SPLIT_RATIO)
         split_y = y + height * split_ratio
         
         # Recursively divide bottom and top parts
