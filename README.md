@@ -3,6 +3,36 @@ Where code meets canvas. A collection of generative art, algorithmic drawings, a
 
 ## Artworks
 
+### 🐴 Galloping Horse 2026
+**File:** `galloping_horse_2026.py`
+
+A dynamic horse artwork celebrating the Year 2026 with the Chinese idiom **马到成功** (immediate success). Features:
+- Stylized galloping horse with flowing mane and tail
+- Motion lines showing speed and energy
+- Festive color palette: red, gold, and blue
+- 2026 banner and success message
+- Perfect for Lunar New Year celebrations
+
+**Run it:**
+```bash
+python galloping_horse_2026.py
+```
+
+### 🌸 Geometric Mandala
+**File:** `geometric_mandala.py`
+
+An intricate circular pattern combining mathematical precision with artistic beauty. Features:
+- 12-fold radial symmetry
+- Multiple concentric layers with geometric designs
+- Star patterns, flower petals, and decorative rings
+- Vibrant color palette: purple, red, green, blue, and gold
+- Mesmerizing symmetry and harmony
+
+**Run it:**
+```bash
+python geometric_mandala.py
+```
+
 ### Sol LeWitt Wall Drawing (Geometric Lines)
 **File:** `sol_lewitt.py`
 
@@ -21,8 +51,6 @@ A homage to Sol LeWitt's "Wall Drawing" series using Python's turtle graphics mo
 python sol_lewitt.py
 ```
 
-**Requirements:** Python 3.x with tkinter support (standard library only)
-
 ### Spot Painting (Damien Hirst Inspired)
 **File:** `spot_painting.py`
 
@@ -38,8 +66,6 @@ A Python recreation of Damien Hirst's iconic "Spot Paintings" using the turtle g
 python spot_painting.py
 ```
 
-**Requirements:** Python 3.x with tkinter support (standard library only)
-
 ### Starry Night (Van Gogh Inspired)
 **File:** `starry_night.py`
 
@@ -54,11 +80,7 @@ A Python recreation of Van Gogh's iconic "Starry Night" using the turtle graphic
 python starry_night.py
 ```
 
-**Requirements:** Python 3.x with tkinter support (standard library only)
-
 ### 🎨 Chinese Calligraphy - 2026 马到成功
-Beautiful, colorful calligraphy celebrating the Year of the Horse with vibrant rainbow effects and artistic styling.
-
 **File:** `calligraphy_2026.py`  
 **Output:** High-quality PNG with gradient effects and Chinese characters  
 **Read more:** [README_CALLIGRAPHY.md](README_CALLIGRAPHY.md)
