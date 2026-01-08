@@ -45,10 +45,11 @@ def validate_pointillism_code():
     print("-" * 60)
     
     required_functions = {
-        'setup_canvas': '初始化画布 / Initialize canvas',
+        'create_dot_cluster': '创建点簇 / Create dot cluster',
         'draw_sky': '绘制天空 / Draw sky',
         'draw_grass': '绘制草地 / Draw grass',
-        'draw_riverbank': '绘制河岸 / Draw riverbank',
+        'draw_water': '绘制水面 / Draw water',
+        'draw_trees': '绘制树木 / Draw trees',
         'draw_figures': '绘制人物 / Draw figures',
         'main': '主函数 / Main function'
     }
@@ -74,12 +75,12 @@ def validate_pointillism_code():
     print("-" * 60)
     
     requirements = {
-        'turtle.dot': ('使用turtle.dot()方法', 'Uses turtle.dot() method'),
-        'turtle.speed(0)': ('最快速度设置', 'Fastest speed setting'),
-        'turtle.tracer(0)': ('关闭动画', 'Disable animation'),
-        'turtle.update()': ('更新画面', 'Update screen'),
-        'turtle.done()': ('保持窗口', 'Keep window open'),
-        'bgcolor("white")': ('白色背景', 'White background'),
+        'ax.scatter': ('使用ax.scatter()方法', 'Uses ax.scatter() method'),
+        'plt.subplots': ('创建Matplotlib图形', 'Create Matplotlib figure'),
+        'dpi=150': ('高DPI设置', 'High DPI setting'),
+        'plt.savefig': ('保存图像', 'Save figure'),
+        'alpha=': ('透明度设置', 'Alpha transparency'),
+        'import numpy': ('使用NumPy', 'Using NumPy'),
     }
     
     for keyword, (desc_zh, desc_en) in requirements.items():
@@ -95,12 +96,12 @@ def validate_pointillism_code():
     
     color_elements = {
         '#87CEEB': '天空蓝 / Sky blue',
+        '#FFD700': '黄色（草地混色用）/ Yellow (for grass mixing)',
+        '#0066CC': '蓝色（草地混色用）/ Blue (for grass mixing)',
         '#228B22': '草绿 / Forest green',
-        '#8B4513': '棕色 / Saddle brown',
-        'black': '黑色 / Black',
-        'white': '白色 / White',
+        '#1E90FF': '水蓝 / Water blue',
         '#DC143C': '红色 (人物) / Red (figure)',
-        '#0000CD': '蓝色 (人物) / Blue (figure)',
+        '#000080': '深蓝色 (人物) / Navy blue (figure)',
     }
     
     for color, description in color_elements.items():
@@ -118,13 +119,13 @@ def validate_pointillism_code():
     total_lines = len(lines)
     code_lines = len([l for l in lines if l.strip() and not l.strip().startswith('#')])
     comment_lines = len([l for l in lines if l.strip().startswith('#')])
-    dot_calls = code.count('turtle.dot')
+    scatter_calls = code.count('ax.scatter')
     
     print(f"  总行数 / Total lines:          {total_lines}")
     print(f"  代码行数 / Code lines:         {code_lines}")
     print(f"  注释行数 / Comment lines:      {comment_lines}")
-    print(f"  turtle.dot()调用次数:          {dot_calls}")
-    print(f"  turtle.dot() calls:            {dot_calls}")
+    print(f"  ax.scatter()调用次数:          {scatter_calls}")
+    print(f"  ax.scatter() calls:            {scatter_calls}")
     
     # 验证点彩画核心原则 / Validate pointillist core principles
     print("\n5️⃣  点彩画核心原则验证 / Pointillist Core Principles:")
@@ -132,34 +133,34 @@ def validate_pointillism_code():
     
     principles = []
     
-    # 检查是否只使用dot方法
-    if 'turtle.forward' not in code and 'turtle.circle' not in code:
-        print("  ✓ 只使用dot()方法，无线条绘制")
-        print("    Only using dot() method, no line drawing")
+    # 检查是否使用scatter方法
+    if 'ax.scatter' in code and scatter_calls >= 5:
+        print("  ✓ 使用ax.scatter()方法绘制点")
+        print("    Using ax.scatter() method to draw dots")
         principles.append(True)
     else:
-        print("  ✗ 发现线条绘制方法")
-        print("    Found line drawing methods")
+        print("  ✗ 未充分使用ax.scatter()方法")
+        print("    Not sufficiently using ax.scatter() method")
         principles.append(False)
     
-    # 检查是否有色点尺寸设置
-    if 'dot_size = 3' in code:
-        print("  ✓ 色点尺寸设置为3像素")
-        print("    Dot size set to 3 pixels")
+    # 检查是否有光学混色
+    if 'yellow' in code.lower() and 'blue' in code.lower() and 'optical' in code.lower():
+        print("  ✓ 实现光学混色效果")
+        print("    Implements optical color mixing")
         principles.append(True)
     else:
-        print("  ⚠ 色点尺寸可能不是3像素")
-        print("    Dot size may not be 3 pixels")
+        print("  ⚠ 可能未实现光学混色")
+        print("    May not implement optical color mixing")
         principles.append(False)
     
-    # 检查是否有色点间距设置
-    if 'spacing = 1' in code:
-        print("  ✓ 色点间距设置为1像素")
-        print("    Dot spacing set to 1 pixel")
+    # 检查是否使用高DPI
+    if 'dpi=' in code and '150' in code:
+        print("  ✓ 使用高DPI输出")
+        print("    Using high DPI output")
         principles.append(True)
     else:
-        print("  ⚠ 色点间距可能不是1像素")
-        print("    Dot spacing may not be 1 pixel")
+        print("  ⚠ 可能未使用高DPI")
+        print("    May not use high DPI")
         principles.append(False)
     
     # 最终结果 / Final result
