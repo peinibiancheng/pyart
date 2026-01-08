@@ -3,6 +3,22 @@ Where code meets canvas. A collection of generative art, algorithmic drawings, a
 
 ## Artworks
 
+### 🎨 Andy Warhol Pop Art
+**File:** `warhol_pop_art.py`
+
+An Andy Warhol-inspired Pop Art masterpiece using Matplotlib. Features:
+- 2x2 grid displaying the same abstract portrait in each quadrant
+- Four different high-contrast colormaps: Magma, Viridis, Cividis, and custom Neon
+- Bold outlines simulating the iconic silkscreen printing effect
+- Flat, saturated color fills with vibrant pop art aesthetics
+- Mathematically generated abstract portrait with facial features
+- High-resolution output (300 DPI) suitable for printing
+
+**Run it:**
+```bash
+python warhol_pop_art.py
+```
+
 ### 🐴 Galloping Horse 2026
 **File:** `galloping_horse_2026.py`
 
