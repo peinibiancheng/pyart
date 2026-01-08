@@ -56,7 +56,7 @@ python sol_lewitt.py
 
 A Python recreation of Damien Hirst's iconic "Spot Paintings" using Matplotlib. Features:
 - 12x12 grid of perfectly aligned colored circles
-- Unique, randomly assigned vibrant colors for each spot
+- Randomly assigned vibrant colors for each spot
 - Mathematical grid layout with consistent spacing and centering
 - Pure white background with all axes hidden
 - Clean, minimal aesthetic with solid fills and no outlines

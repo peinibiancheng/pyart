@@ -11,7 +11,7 @@ Requirements:
 
 Features:
     - 12x12 grid of perfectly aligned colored spots
-    - Unique, randomly assigned vibrant colors for each spot
+    - Randomly assigned vibrant colors for each spot
     - Consistent spacing and centering
     - Clean, minimal aesthetic with no borders/outlines
     - Pure white background
@@ -26,7 +26,7 @@ def draw_spot_painting():
     Generate a Damien Hirst 'Spot Paintings'-inspired artwork.
     
     Creates a 12x12 grid of colorful circles with:
-    - Unique, randomly assigned vibrant colors for each spot
+    - Randomly assigned vibrant colors for each spot
     - Perfect grid alignment with consistent spacing
     - Centered composition on a pure white canvas
     - No outlines on circles
@@ -51,29 +51,20 @@ def draw_spot_painting():
         "#00FA9A",  # Medium Spring Green
         "#FFA500",  # Orange
         "#8B008B",  # Dark Magenta
-        "#00CED1",  # Dark Turquoise
-        "#FF1493",  # Deep Pink
         "#7FFF00",  # Chartreuse
         "#DC143C",  # Crimson
         "#00FFFF",  # Cyan
-        "#FF69B4",  # Hot Pink
         "#ADFF2F",  # Green Yellow
-        "#FF4500",  # Orange Red
         "#DA70D6",  # Orchid
         "#98FB98",  # Pale Green
         "#DDA0DD",  # Plum
-        "#FF0000",  # Red
         "#FA8072",  # Salmon
         "#F0E68C",  # Khaki
         "#EE82EE",  # Violet
         "#FFFF54",  # Laser Lemon
         "#00FF7F",  # Spring Green
-        "#4169E1",  # Royal Blue
-        "#FF6347",  # Tomato
         "#40E0D0",  # Turquoise
-        "#EE82EE",  # Violet
         "#F5DEB3",  # Wheat
-        "#FFFF00",  # Yellow
         "#9ACD32",  # Yellow Green
     ]
     
@@ -97,7 +88,7 @@ def draw_spot_painting():
             x_coords.append(x)
             y_coords.append(y)
             
-            # Assign a unique random color to each spot
+            # Assign a randomly selected vibrant color to each spot
             spot_colors.append(random.choice(colors))
     
     # Create figure and axis with white background
