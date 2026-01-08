@@ -22,8 +22,6 @@ Features:
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import numpy as np
-from matplotlib.patches import Circle
-from matplotlib.collections import LineCollection
 
 
 def create_abstract_portrait():
@@ -33,6 +31,9 @@ def create_abstract_portrait():
     Returns:
         np.ndarray: 2D array representing an abstract portrait with values 0-1
     """
+    # Set seed for reproducible artwork
+    np.random.seed(42)
+    
     # Create a 200x200 grid
     size = 200
     x = np.linspace(-1, 1, size)
@@ -91,7 +92,7 @@ def create_neon_colormap():
     return cmap
 
 
-def add_silkscreen_outline(ax, data, color='black', linewidth=3):
+def add_silkscreen_outline(ax, data, color='black', linewidth=2.5):
     """
     Add bold outlines to simulate silkscreen printing effect.
     
