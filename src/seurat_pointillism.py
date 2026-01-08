@@ -1,195 +1,308 @@
 """
-乔治·修拉风格点彩画《大碗岛的星期日下午》简化局部
-Georges Seurat-style pointillist painting - Simplified section of "A Sunday Afternoon on the Island of La Grande Jatte"
+Georges Seurat-style Pointillism using Matplotlib
+乔治·修拉风格点彩画 - 使用Matplotlib实现
 
-使用turtle.dot()方法绘制点彩画，遵循点彩派色彩并置原理
-Uses turtle.dot() method to create pointillist artwork, following pointillist color juxtaposition principles
+Simulates Pointillism by plotting hundreds of thousands of tiny, colorful dots
+using ax.scatter(). Uses clusters of slightly different colored dots to create
+optical color mixing effects (e.g., mixing yellow and blue dots to create a
+"green" area from a distance).
+
+使用Matplotlib的ax.scatter()方法绘制成千上万个微小的彩色点来模拟点彩画。
+通过将稍有不同颜色的点簇聚在一起，创造光学混色效果（例如，混合黄色和蓝色的点，
+从远处看形成"绿色"区域）。
 """
 
-import turtle
-import random
+import numpy as np
+import matplotlib.pyplot as plt
 
 
-def setup_canvas():
-    """初始化画布设置 / Initialize canvas settings"""
-    turtle.speed(0)  # 最快速度 / Fastest speed
-    turtle.tracer(0)  # 关闭绘图动画 / Disable animation
-    turtle.hideturtle()  # 隐藏海龟 / Hide turtle cursor
-    screen = turtle.Screen()
-    screen.bgcolor("white")  # 白色背景 / White background
-    screen.setup(width=800, height=600)  # 设置画布大小 / Set canvas size
-    return screen
-
-
-def draw_sky():
-    """绘制天空 - 浅蓝色和白色点 / Draw sky - light blue and white dots"""
-    # 天空区域：画布上半部分 / Sky area: upper half of canvas
-    dot_size = 3
-    spacing = 1
-    step = dot_size + spacing
+def draw_sky(ax, width, height, num_dots=80000):
+    """
+    Draw sky using blue and white dots for optical mixing.
     
-    # 从上往下绘制天空 / Draw sky from top to bottom
-    for y in range(300, 100, -step):
-        for x in range(-400, 400, step):
-            # 随机选择天空颜色，越往上白色越多（高光效果）
-            # Randomly select sky color, more white towards top (highlight effect)
-            if y > 250:
-                color = random.choice(["white", "white", "#E0F6FF", "#B0E0E6"])
-            elif y > 200:
-                color = random.choice(["white", "#B0E0E6", "#87CEEB", "#ADD8E6"])
+    The upper part has more white dots (highlights), while the middle
+    has a mix of blues and whites creating a luminous sky effect.
+    """
+    # Sky color palette - various blues and whites
+    sky_colors_top = ['#FFFFFF', '#F0F8FF', '#E6F3FF', '#D4E9FF']  # More white at top
+    sky_colors_mid = ['#87CEEB', '#ADD8E6', '#B0E0E6', '#E0F6FF', '#FFFFFF']
+    sky_colors_bottom = ['#5DADE2', '#87CEEB', '#6CA6CD', '#ADD8E6']
+    
+    x_all, y_all, c_all, s_all = [], [], [], []
+    
+    # Divide sky into three bands for gradual color transition
+    for _ in range(num_dots):
+        x = np.random.uniform(0, width)
+        y = np.random.uniform(height * 0.5, height)  # Upper half
+        
+        # Choose color palette based on y position
+        if y > height * 0.85:
+            color = np.random.choice(sky_colors_top)
+        elif y > height * 0.65:
+            color = np.random.choice(sky_colors_mid)
+        else:
+            color = np.random.choice(sky_colors_bottom)
+        
+        size = np.random.uniform(1, 4)
+        
+        x_all.append(x)
+        y_all.append(y)
+        c_all.append(color)
+        s_all.append(size)
+    
+    ax.scatter(x_all, y_all, c=c_all, s=s_all, alpha=0.7, linewidths=0)
+
+
+def draw_grass(ax, width, height, num_dots=100000):
+    """
+    Draw grass using yellow and blue dots mixed to create optical green.
+    
+    This demonstrates the core principle of Pointillism - mixing yellow and
+    blue dots creates the illusion of green when viewed from a distance.
+    """
+    # Grass area: lower-middle portion
+    # Using yellow and blue dots to create optical green mixing
+    yellow_palette = ['#FFD700', '#FFF44F', '#FFEB3B', '#F4D03F']
+    blue_palette = ['#0066CC', '#1E90FF', '#4169E1', '#5B9BD5']
+    green_palette = ['#228B22', '#32CD32', '#90EE90', '#9ACD32']  # Some true greens
+    brown_palette = ['#8B4513', '#A0522D', '#CD853F', '#DEB887']  # For shadows/earth
+    
+    x_all, y_all, c_all, s_all = [], [], [], []
+    
+    for _ in range(num_dots):
+        x = np.random.uniform(0, width)
+        y = np.random.uniform(0, height * 0.5)  # Lower half
+        
+        # Foreground (bottom) - more varied colors and larger dots
+        if y < height * 0.15:
+            # Mix of yellow, blue, and green for rich grass texture
+            color_choice = np.random.random()
+            if color_choice < 0.3:
+                color = np.random.choice(yellow_palette)
+            elif color_choice < 0.5:
+                color = np.random.choice(blue_palette)
+            elif color_choice < 0.85:
+                color = np.random.choice(green_palette)
             else:
-                color = random.choice(["#87CEEB", "#ADD8E6", "#B0E0E6", "white"])
-            
-            turtle.penup()
-            turtle.goto(x, y)
-            turtle.dot(dot_size, color)
-
-
-def draw_grass():
-    """绘制草地 - 草绿、黄绿、土黄色点 / Draw grass - green, yellow-green, and tan dots"""
-    # 草地区域：画布中下部分 / Grass area: middle-lower part of canvas
-    dot_size = 3
-    spacing = 1
-    step = dot_size + spacing
-    
-    # 绘制草地 / Draw grass
-    for y in range(100, -100, -step):
-        for x in range(-400, 400, step):
-            # 近景草地使用更多黄绿色，远景使用更多绿色
-            # Foreground uses more yellow-green, background uses more green
-            if y < -50:
-                # 前景 - 更亮的颜色 / Foreground - brighter colors
-                color = random.choice(["#9ACD32", "#90EE90", "#BDB76B", "#228B22"])
-            elif y < 0:
-                # 中景 / Middle ground
-                color = random.choice(["#32CD32", "#228B22", "#90EE90", "#9ACD32"])
+                color = np.random.choice(brown_palette)  # Shadows
+            size = np.random.uniform(2, 5)
+        # Middle ground
+        elif y < height * 0.35:
+            color_choice = np.random.random()
+            if color_choice < 0.25:
+                color = np.random.choice(yellow_palette)
+            elif color_choice < 0.45:
+                color = np.random.choice(blue_palette)
             else:
-                # 远景 - 较暗的颜色 / Background - darker colors
-                color = random.choice(["#228B22", "#2E8B57", "#32CD32"])
-            
-            # 添加随机的土黄色点作为阴影 / Add random tan dots for shadows
-            if random.random() < 0.15:
-                color = random.choice(["#BDB76B", "#DAA520", "#8B7355"])
-            
-            turtle.penup()
-            turtle.goto(x, y)
-            turtle.dot(dot_size, color)
-
-
-def draw_riverbank():
-    """绘制河岸边缘 - 棕色和黑色点 / Draw riverbank edge - brown and black dots"""
-    # 河岸区域：画布底部 / Riverbank area: bottom of canvas
-    dot_size = 3
-    spacing = 1
-    step = dot_size + spacing
-    
-    # 绘制河岸 / Draw riverbank
-    for y in range(-100, -200, -step):
-        for x in range(-400, 400, step):
-            # 底部使用更多黑色（阴影） / More black at bottom (shadows)
-            if y < -150:
-                color = random.choice(["black", "#2F1F10", "#654321", "#5C4033"])
+                color = np.random.choice(green_palette)
+            size = np.random.uniform(1.5, 4)
+        # Background (upper grass, near horizon)
+        else:
+            color_choice = np.random.random()
+            if color_choice < 0.2:
+                color = np.random.choice(yellow_palette)
+            elif color_choice < 0.35:
+                color = np.random.choice(blue_palette)
             else:
-                color = random.choice(["#8B4513", "#654321", "#A0522D", "#5C4033"])
+                color = np.random.choice(green_palette)
+            size = np.random.uniform(1, 3)
+        
+        x_all.append(x)
+        y_all.append(y)
+        c_all.append(color)
+        s_all.append(size)
+    
+    ax.scatter(x_all, y_all, c=c_all, s=s_all, alpha=0.65, linewidths=0)
+
+
+def draw_trees(ax, width, height, num_trees=3):
+    """
+    Draw trees using clusters of dots in various greens, blues, and yellows.
+    """
+    tree_dark = ['#0B6623', '#004225', '#355E3B', '#2C5F2D']
+    tree_light = ['#90EE90', '#98FB98', '#87D68D', '#8FBC8F']
+    tree_yellow = ['#9ACD32', '#BDB76B', '#F0E68C']
+    tree_blue = ['#4682B4', '#5F9EA0', '#6495ED']
+    trunk_colors = ['#3B2F2F', '#4B3621', '#654321', '#5C4033']
+    
+    for i in range(num_trees):
+        # Position trees at different locations
+        tree_x = width * (0.2 + i * 0.3)
+        tree_base_y = height * 0.25
+        tree_top_y = height * 0.55
+        
+        # Draw trunk with brown dots
+        for _ in range(300):
+            x = np.random.normal(tree_x, 2)
+            y = np.random.uniform(tree_base_y, tree_base_y + (tree_top_y - tree_base_y) * 0.4)
+            color = np.random.choice(trunk_colors)
+            size = np.random.uniform(2, 4)
+            ax.scatter(x, y, c=color, s=size, alpha=0.8, linewidths=0)
+        
+        # Draw foliage with mixed color dots
+        foliage_dots = 3000
+        for _ in range(foliage_dots):
+            # Create roughly circular crown
+            angle = np.random.uniform(0, 2 * np.pi)
+            radius = np.random.uniform(0, 15)
+            x = tree_x + radius * np.cos(angle)
+            y = tree_top_y + radius * np.sin(angle) * 1.2  # Slightly taller than wide
             
-            turtle.penup()
-            turtle.goto(x, y)
-            turtle.dot(dot_size, color)
+            # Mix colors for optical blending
+            color_choice = np.random.random()
+            if color_choice < 0.4:
+                color = np.random.choice(tree_dark)
+            elif color_choice < 0.65:
+                color = np.random.choice(tree_light)
+            elif color_choice < 0.85:
+                color = np.random.choice(tree_yellow)
+            else:
+                color = np.random.choice(tree_blue)
+            
+            size = np.random.uniform(1.5, 4)
+            ax.scatter(x, y, c=color, s=size, alpha=0.7, linewidths=0)
 
 
-def draw_figures():
-    """绘制简化人物剪影 - 红、蓝、白色点 / Draw simplified figure silhouettes - red, blue, white dots"""
-    dot_size = 3
-    spacing = 1
-    step = dot_size + spacing
+def draw_water(ax, width, height, num_dots=40000):
+    """
+    Draw a water area using blue, cyan, and white dots for reflective effect.
+    """
+    water_blue = ['#1E90FF', '#4682B4', '#5F9EA0', '#6495ED']
+    water_cyan = ['#00CED1', '#48D1CC', '#40E0D0', '#AFEEEE']
+    water_white = ['#E0FFFF', '#F0FFFF', '#FFFFFF']
     
-    # 人物1：左侧，蓝色服饰 / Figure 1: left side, blue clothing
-    figure1_x = -150
-    figure1_y_base = -20
+    x_all, y_all, c_all, s_all = [], [], [], []
     
-    # 绘制人物1的头部 / Draw figure 1's head
-    for y in range(figure1_y_base + 40, figure1_y_base + 60, step):
-        for x in range(figure1_x - 8, figure1_x + 8, step):
-            if (x - figure1_x) ** 2 + (y - (figure1_y_base + 50)) ** 2 < 100:
-                color = random.choice(["#FFE4C4", "#F5DEB3", "#DEB887"])
-                turtle.penup()
-                turtle.goto(x, y)
-                turtle.dot(dot_size, color)
+    # Water strip in lower portion
+    for _ in range(num_dots):
+        x = np.random.uniform(0, width)
+        y = np.random.uniform(0, height * 0.2)
+        
+        # Add sparkles (white dots) randomly
+        color_choice = np.random.random()
+        if color_choice < 0.5:
+            color = np.random.choice(water_blue)
+        elif color_choice < 0.85:
+            color = np.random.choice(water_cyan)
+        else:
+            color = np.random.choice(water_white)  # Sparkles
+        
+        size = np.random.uniform(1, 3.5)
+        
+        x_all.append(x)
+        y_all.append(y)
+        c_all.append(color)
+        s_all.append(size)
     
-    # 绘制人物1的身体（蓝色） / Draw figure 1's body (blue)
-    for y in range(figure1_y_base, figure1_y_base + 40, step):
-        for x in range(figure1_x - 15, figure1_x + 15, step):
-            if abs(x - figure1_x) < 12:
-                color = random.choice(["#000080", "#0000CD", "#4169E1", "#1E90FF"])
-                # 添加白色高光 / Add white highlights
-                if random.random() < 0.2:
-                    color = random.choice(["white", "#E6F2FF"])
-                turtle.penup()
-                turtle.goto(x, y)
-                turtle.dot(dot_size, color)
+    ax.scatter(x_all, y_all, c=c_all, s=s_all, alpha=0.6, linewidths=0)
+
+
+def draw_figures(ax, width, height):
+    """
+    Draw simplified human figures using colorful dot clusters.
+    """
+    # Figure 1: Person in blue clothing
+    figure1_x = width * 0.3
+    figure1_y = height * 0.3
     
-    # 人物2：右侧，红色服饰 / Figure 2: right side, red clothing
-    figure2_x = 100
-    figure2_y_base = -30
+    # Head (skin tones)
+    head_colors = ['#FFE4C4', '#F5DEB3', '#DEB887', '#D2B48C']
+    for _ in range(200):
+        angle = np.random.uniform(0, 2 * np.pi)
+        radius = np.random.uniform(0, 3)
+        x = figure1_x + radius * np.cos(angle)
+        y = figure1_y + 10 + radius * np.sin(angle)
+        color = np.random.choice(head_colors)
+        size = np.random.uniform(2, 4)
+        ax.scatter(x, y, c=color, s=size, alpha=0.8, linewidths=0)
     
-    # 绘制人物2的头部 / Draw figure 2's head
-    for y in range(figure2_y_base + 35, figure2_y_base + 55, step):
-        for x in range(figure2_x - 8, figure2_x + 8, step):
-            if (x - figure2_x) ** 2 + (y - (figure2_y_base + 45)) ** 2 < 90:
-                color = random.choice(["#FFE4C4", "#F5DEB3", "#DEB887"])
-                turtle.penup()
-                turtle.goto(x, y)
-                turtle.dot(dot_size, color)
+    # Body (blue with white highlights)
+    body_colors = ['#000080', '#0000CD', '#4169E1', '#1E90FF', '#FFFFFF']
+    for _ in range(500):
+        x = np.random.uniform(figure1_x - 5, figure1_x + 5)
+        y = np.random.uniform(figure1_y - 10, figure1_y + 8)
+        color = np.random.choice(body_colors)
+        size = np.random.uniform(2, 4)
+        ax.scatter(x, y, c=color, s=size, alpha=0.75, linewidths=0)
     
-    # 绘制人物2的身体（红色） / Draw figure 2's body (red)
-    for y in range(figure2_y_base, figure2_y_base + 35, step):
-        for x in range(figure2_x - 12, figure2_x + 12, step):
-            if abs(x - figure2_x) < 10:
-                color = random.choice(["#8B0000", "#DC143C", "#CD5C5C", "#B22222"])
-                # 添加白色高光 / Add white highlights
-                if random.random() < 0.15:
-                    color = random.choice(["white", "#FFE6E6"])
-                # 添加深色阴影 / Add dark shadows
-                if random.random() < 0.2 and x < figure2_x - 5:
-                    color = random.choice(["#800000", "#4B0000"])
-                turtle.penup()
-                turtle.goto(x, y)
-                turtle.dot(dot_size, color)
+    # Figure 2: Person in red clothing
+    figure2_x = width * 0.7
+    figure2_y = height * 0.28
+    
+    # Head
+    for _ in range(180):
+        angle = np.random.uniform(0, 2 * np.pi)
+        radius = np.random.uniform(0, 2.8)
+        x = figure2_x + radius * np.cos(angle)
+        y = figure2_y + 9 + radius * np.sin(angle)
+        color = np.random.choice(head_colors)
+        size = np.random.uniform(2, 4)
+        ax.scatter(x, y, c=color, s=size, alpha=0.8, linewidths=0)
+    
+    # Body (red with pink/white highlights)
+    body_colors = ['#8B0000', '#DC143C', '#CD5C5C', '#FFB6C1', '#FFFFFF']
+    for _ in range(450):
+        x = np.random.uniform(figure2_x - 4, figure2_x + 4)
+        y = np.random.uniform(figure2_y - 9, figure2_y + 7)
+        color = np.random.choice(body_colors)
+        size = np.random.uniform(2, 4)
+        ax.scatter(x, y, c=color, s=size, alpha=0.75, linewidths=0)
 
 
 def main():
-    """主函数 / Main function"""
-    # 初始化画布 / Initialize canvas
-    screen = setup_canvas()
+    """
+    Main function to create the Pointillist painting.
+    """
+    print("Creating Georges Seurat-style Pointillist painting using Matplotlib...")
+    print("正在创建乔治·修拉风格点彩画...")
     
-    print("开始绘制点彩画... / Starting to draw pointillist painting...")
-    print("绘制天空... / Drawing sky...")
-    draw_sky()
+    # Set up high DPI figure for better quality
+    fig, ax = plt.subplots(figsize=(12, 9), dpi=150)
     
-    print("绘制草地... / Drawing grass...")
-    draw_grass()
-    
-    print("绘制河岸... / Drawing riverbank...")
-    draw_riverbank()
-    
-    print("绘制人物... / Drawing figures...")
-    draw_figures()
-    
-    # 更新画面 / Update screen
-    turtle.update()
-    print("绘制完成！/ Drawing complete!")
-    
-    # 保持窗口打开 / Keep window open
-    turtle.done()
+    try:
+        # Set canvas dimensions
+        width, height = 100, 75
+        
+        # Set white background
+        fig.patch.set_facecolor('white')
+        ax.set_facecolor('white')
+        
+        print("Drawing sky... / 绘制天空...")
+        draw_sky(ax, width, height)
+        
+        print("Drawing grass with optical color mixing... / 绘制草地（光学混色）...")
+        draw_grass(ax, width, height)
+        
+        print("Drawing water... / 绘制水面...")
+        draw_water(ax, width, height)
+        
+        print("Drawing trees... / 绘制树木...")
+        draw_trees(ax, width, height)
+        
+        print("Drawing figures... / 绘制人物...")
+        draw_figures(ax, width, height)
+        
+        # Remove axes for cleaner look
+        ax.set_xlim(0, width)
+        ax.set_ylim(0, height)
+        ax.set_aspect('equal')
+        ax.axis('off')
+        
+        plt.tight_layout()
+        
+        print("Complete! / 完成！")
+        
+        # Save the figure
+        output_file = 'seurat_pointillism_matplotlib.png'
+        plt.savefig(output_file, dpi=150, bbox_inches='tight', facecolor='white')
+        print(f"Saved to {output_file}")
+        
+        print("\nNote: The painting uses optical color mixing - notice how yellow and blue")
+        print("dots create the illusion of green in the grass when viewed from a distance!")
+    finally:
+        # Close the figure to free memory
+        plt.close(fig)
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except turtle.Terminator:
-        pass
-    except Exception as e:
-        if "invalid command name" in str(e):
-            pass
-        else:
-            raise
+    main()

@@ -211,3 +211,5 @@ gallery/
 *.png
 *.jpg
 *.jpeg
+*.gif
+*.svg

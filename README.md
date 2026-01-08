@@ -166,11 +166,12 @@ python sol_lewitt_geometric.py
 ### Pointillism Art (Georges Seurat Inspired)
 **File:** `seurat_pointillism.py`
 
-A Python recreation of Georges Seurat's Pointillism technique using the turtle graphics module. Features:
-- Thousands of small dots of pure color applied in patterns to form an image
-- Optical color mixing: colors are mixed in the eye of the viewer rather than on the palette
-- Thematic focus on light, shadow, and color theory
-- High-density dot rendering using mathematical distributions
+A Python recreation of Georges Seurat's Pointillism technique using Matplotlib's scatter plots. Features:
+- Over 220,000 tiny colored dots plotted using `ax.scatter()`
+- **Optical color mixing**: Yellow and blue dots juxtaposed to create green visual effect in grass
+- High DPI output (150 DPI) with alpha values for painterly texture
+- Landscape scene with sky, grass, water, trees, and figures
+- Colors mixed in the eye of the viewer rather than on the palette
 - Read more: [README_SEURAT.md](README_SEURAT.md)
 
 **Run it:**
