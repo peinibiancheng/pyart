@@ -165,14 +165,8 @@ def create_dog_path():
     codes = [Path.MOVETO]  # Start point
     
     # Use CURVE4 (cubic Bézier) for smooth flowing lines
-    # Pattern: CURVE4, CURVE4, CURVE4 for each cubic Bézier segment
     for i in range(1, len(vertices)):
-        if i % 3 == 1:
-            codes.append(Path.CURVE4)
-        elif i % 3 == 2:
-            codes.append(Path.CURVE4)
-        else:
-            codes.append(Path.CURVE4)
+        codes.append(Path.CURVE4)
     
     # Adjust codes to ensure we have the right number
     while len(codes) < len(vertices):
@@ -248,12 +242,7 @@ def create_penguin_path():
     
     codes = [Path.MOVETO]
     for i in range(1, len(vertices)):
-        if i % 3 == 1:
-            codes.append(Path.CURVE4)
-        elif i % 3 == 2:
-            codes.append(Path.CURVE4)
-        else:
-            codes.append(Path.CURVE4)
+        codes.append(Path.CURVE4)
     
     while len(codes) < len(vertices):
         codes.append(Path.LINETO)
