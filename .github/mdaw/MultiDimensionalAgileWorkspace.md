@@ -12,13 +12,13 @@
 
 | 物理路径 | 对应分支 | 角色 (Role) | 核心职责 | 推荐策略 |
 | :--- | :--- | :--- | :--- | :--- |
-| `Pypixel/` | `develop` | **Main** | 核心开发、代码集成中心。 | 常驻 |
-| `Pypixel-architect/` | `feature/architect` | **Architect** | 架构规划、解耦设计。 | **常驻** |
-| `Pypixel-product/` | `feature/product` | **Product Owner** | 需求分析、功能定义 (Spec)、验收 (UAT)。 | **常驻** |
-| `Pypixel-scrum/` | `feature/scrum-master` | **Scrum Master** | 任务管理、Sprint 规划。 | **常驻** |
-| `Pypixel-docs/` | `feature/knowledge` | **Knowledge Manager** | 文档维护、技术债管理。 | **常驻** |
-| `Pypixel-qa/` | `feature/testing` | **Testing/QA** | 测试用例编写、回归测试。 | **常驻** |
-| `Pypixel-devops/` | `feature/devops` | **DevOps** | 发布流程、构建脚本、打包与签名。 | **常驻 (强烈推荐)** |
+| `pyart/` | `develop` | **Main** | 核心开发、代码集成中心。 | 常驻 |
+| `pyart-architect/` | `feature/architect` | **Architect** | 架构规划、解耦设计。 | **常驻** |
+| `pyart-product/` | `feature/product` | **Product Owner** | 需求分析、功能定义 (Spec)、验收 (UAT)。 | **常驻** |
+| `pyart-scrum/` | `feature/scrum-master` | **Scrum Master** | 任务管理、Sprint 规划。 | **常驻** |
+| `pyart-docs/` | `feature/knowledge` | **Knowledge Manager** | 文档维护、技术债管理。 | **常驻** |
+| `pyart-qa/` | `feature/testing` | **Testing/QA** | 测试用例编写、回归测试。 | **常驻** |
+| `pyart-devops/` | `feature/devops` | **DevOps** | 发布流程、构建脚本、打包与签名。 | **常驻 (强烈推荐)** |
 
 ## 4. 关键价值 (Key Benefits)
 1. **零成本上下文切换**: 无需 `git stash` 或 `git commit -m "wip"`，直接切换文件夹即可进入另一个工作状态。
@@ -35,7 +35,7 @@
 
 1.  **日常工作**: 在各自的工作树（Worktree）中正常 `commit`。
 2.  **成果交付 (Merge)**:
-    - 切换回主空间: `cd e:\Code\Pypixel`
+    - 切换回主空间: `cd e:\Code\pyart`
     - 手动合并（保留分支）:
       ```powershell
       git checkout develop
@@ -43,7 +43,7 @@
       # 可选: git push origin develop
       ```
 3.  **反向同步 (Update)**:
-    - 切换回角色空间: `cd e:\Code\Pypixel-architect`
+    - 切换回角色空间: `cd e:\Code\pyart-architect`
     - 拉取主干更新: `git pull origin develop` (或 `git merge develop`)
     - *目的: 确保架构师基于最新的代码库进行设计。*
 
@@ -55,7 +55,7 @@
 3.  **结束**:
     - `git flow feature finish login-page`
     - 分支被自动删除。
-    - 如果创建了 Worktree，需手动清理: `git worktree remove ../Pypixel-login-page`
+    - 如果创建了 Worktree，需手动清理: `git worktree remove ../pyart-login-page`
 
 ---
 *修订于 2026-01-06 — 增加“常驻分支策略”以适配长期角色分工。*
