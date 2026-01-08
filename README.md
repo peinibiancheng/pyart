@@ -19,6 +19,22 @@ An Andy Warhol-inspired Pop Art masterpiece using Matplotlib. Features:
 python warhol_pop_art.py
 ```
 
+### 🎨 Picasso One-Line Drawing
+**File:** `picasso_one_line.py`
+
+Minimalist one-line drawings inspired by Picasso's famous continuous line works like his 'Penguin', 'Dog', and 'Camel'. Features:
+- Single continuous elegant black stroke using Bézier curves
+- Textured paper-colored background (warm beige/cream tone)
+- Fluid movement and abstract simplicity
+- Two variations: Dog and Penguin drawings
+- Pure matplotlib implementation using `matplotlib.path.Path`
+- Elegant minimalist aesthetic with rounded line caps and joins
+
+**Run it:**
+```bash
+python picasso_one_line.py
+```
+
 ### 🐴 Galloping Horse 2026
 **File:** `galloping_horse_2026.py`
 
