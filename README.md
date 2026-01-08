@@ -137,11 +137,12 @@ python spot_painting.py
 ### Starry Night (Van Gogh Inspired)
 **File:** `starry_night.py`
 
-A Python recreation of Van Gogh's iconic "Starry Night" using the turtle graphics module. Features:
-- Swirling sky patterns created with sine/cosine waves mimicking Van Gogh's distinctive brushstrokes
-- Stylized flame-like cypress trees in the foreground
-- Glowing moon with layered halos
-- Strict color palette: `#1a5fb4` (blue), `#f7931a` (orange/yellow), and black
+A Matplotlib-based simulation of Van Gogh's iconic "Starry Night" with swirling textures. Features:
+- Vector fields (streamplot) defining swirling, flow-like patterns
+- Thousands of short, thick brushstrokes (5000+) along flow lines
+- Post-Impressionist color palette with varying shades of blues and yellows
+- Energetic, moving sky effect with dashed brushstrokes
+- Glowing moon and radiating stars
 
 **Run it:**
 ```bash

@@ -1,226 +1,245 @@
 """
-Van Gogh 'Starry Night'-inspired artwork using Python's turtle module.
-Generates swirling sky patterns, cypress trees, and a glowing moon.
+Van Gogh 'Starry Night'-inspired artwork using Matplotlib.
+Uses vector fields to define swirling, flow-like patterns and thousands
+of short, thick strokes to create an energetic, moving sky.
 
 Usage:
     python starry_night.py
 
 Requirements:
-    - Python 3.x with tkinter support
-    - Standard library only (turtle, math, random)
+    - matplotlib>=3.10.0
+    - numpy>=2.0.0
 
 Features:
-    - Swirling sky patterns using sine/cosine waves (mimicking brushstrokes)
-    - Stylized black cypress trees (flame-like) in foreground
-    - Glowing yellow moon with soft halos
-    - Color palette: #1a5fb4 (blue), #f7931a (orange/yellow), and black
+    - Vector fields (streamplot) defining swirling flow patterns
+    - Thousands of short, thick strokes along flow lines
+    - Post-Impressionist color palette (blues and yellows)
+    - Energetic, moving sky with dashed brushstrokes
 """
 
-import turtle
-import math
-import random
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.patches as patches
+from matplotlib.collections import LineCollection
 
 
-def draw_starry_night():
+def create_vector_field(X, Y):
     """
-    Generate a Van Gogh 'Starry Night'-inspired artwork.
+    Create a swirling vector field for Van Gogh-style flow patterns.
+    
+    Parameters:
+    -----------
+    X, Y : numpy arrays
+        Meshgrid coordinates
+        
+    Returns:
+    --------
+    U, V : numpy arrays
+        Vector field components
+    """
+    # Create multiple swirl centers
+    centers = [
+        (0.3, 0.7, 1.5, 0.3),   # (x, y, strength, rotation)
+        (0.7, 0.6, 1.2, -0.5),
+        (0.5, 0.8, 0.8, 0.7),
+    ]
+    
+    U = np.zeros_like(X)
+    V = np.zeros_like(Y)
+    
+    # Add swirling patterns from each center
+    for cx, cy, strength, rotation in centers:
+        dx = X - cx
+        dy = Y - cy
+        r = np.sqrt(dx**2 + dy**2) + 0.1
+        
+        # Circular flow with radial component
+        U += strength * (-dy / r + rotation * dx)
+        V += strength * (dx / r + rotation * dy)
+    
+    # Add general horizontal flow
+    U += 0.5
+    
+    return U, V
+
+
+def create_brushstrokes(X, Y, U, V, num_strokes=5000, random_seed=42):
+    """
+    Create thousands of short, thick brushstrokes along flow lines.
+    
+    Parameters:
+    -----------
+    X, Y : numpy arrays
+        Meshgrid coordinates
+    U, V : numpy arrays
+        Vector field components
+    num_strokes : int
+        Number of brushstrokes to create
+    random_seed : int, optional
+        Random seed for reproducibility
+        
+    Returns:
+    --------
+    segments : list
+        List of line segments
+    colors : list
+        List of colors for each segment
+    linewidths : list
+        List of linewidths for each segment
+    """
+    rng = np.random.RandomState(random_seed)
+    
+    segments = []
+    colors = []
+    linewidths = []
+    
+    # Post-Impressionist color palette
+    blues = [
+        '#1a5fb4', '#0d3a6b', '#2563eb', '#1e40af', '#1e3a8a',
+        '#0f4c81', '#3b82f6', '#2563eb', '#1d4ed8', '#4169e1'
+    ]
+    yellows = [
+        '#f7931a', '#fbbf24', '#f59e0b', '#d97706', '#fcd34d',
+        '#fde047', '#facc15', '#eab308', '#ca8a04', '#ffa500'
+    ]
+    
+    for i in range(num_strokes):
+        # Random starting position
+        x_start = rng.uniform(0, 1)
+        y_start = rng.uniform(0, 1)
+        
+        # Find vector field direction at this point
+        x_idx = int(x_start * (X.shape[1] - 1))
+        y_idx = int(y_start * (X.shape[0] - 1))
+        
+        u = U[y_idx, x_idx]
+        v = V[y_idx, x_idx]
+        
+        # Normalize and scale stroke length
+        magnitude = np.sqrt(u**2 + v**2)
+        if magnitude > 0:
+            u_norm = u / magnitude
+            v_norm = v / magnitude
+        else:
+            u_norm, v_norm = 1, 0
+        
+        # Create short stroke
+        stroke_length = rng.uniform(0.01, 0.03)
+        x_end = x_start + u_norm * stroke_length
+        y_end = y_start + v_norm * stroke_length
+        
+        segments.append([(x_start, y_start), (x_end, y_end)])
+        
+        # Choose color based on position (blues in upper areas, yellows in stars/moon)
+        if y_start > 0.7 or (0.6 < x_start < 0.8 and 0.5 < y_start < 0.7):
+            # Star/moon areas - yellows
+            color = rng.choice(yellows)
+        elif rng.random() < 0.1:
+            # Occasional yellow strokes in sky for variety
+            color = rng.choice(yellows)
+        else:
+            # Sky areas - blues
+            color = rng.choice(blues)
+        
+        colors.append(color)
+        
+        # Varying thickness for brushstroke effect
+        linewidth = rng.uniform(1.5, 4.0)
+        linewidths.append(linewidth)
+    
+    return segments, colors, linewidths
+
+
+def draw_starry_night(random_seed=42):
+    """
+    Generate a Van Gogh 'Starry Night'-inspired artwork using Matplotlib.
+    
+    Parameters:
+    -----------
+    random_seed : int, optional
+        Random seed for reproducibility
     
     Creates:
-    - Swirling sky patterns using sine/cosine waves (mimicking brushstrokes)
-    - Stylized black cypress trees (flame-like) in foreground
-    - Glowing yellow moon with soft halos
-    - Color palette: #1a5fb4 (blue), #f7931a (orange/yellow), and black
+    - Swirling vector field defining flow patterns
+    - Thousands of short, thick brushstrokes
+    - Post-Impressionist color palette (blues and yellows)
+    - Energetic, moving sky effect
     """
-    # Setup
-    screen = turtle.Screen()
-    screen.setup(width=800, height=600)
-    screen.bgcolor("black")  # Black night sky background from palette
-    screen.title("Starry Night - Van Gogh Inspired")
-    screen.tracer(2)  # Update screen every 10th drawing action for moderate speed
-
-
+    # Create figure
+    fig, ax = plt.subplots(figsize=(12, 8), facecolor='#0a0a0a')
+    ax.set_facecolor('#0a0a0a')
     
-    t = turtle.Turtle()
-    t.speed(0)  # Fastest drawing speed
-    t.hideturtle()
+    # Create meshgrid for vector field
+    x = np.linspace(0, 1, 30)
+    y = np.linspace(0, 1, 30)
+    X, Y = np.meshgrid(x, y)
     
-    # Draw sky with swirling patterns
-    draw_swirling_sky(t)
+    # Generate vector field
+    U, V = create_vector_field(X, Y)
     
-    # Draw moon with halos
-    draw_moon_with_halos(t)
+    # Plot streamplot for flow visualization (subtle)
+    stream = ax.streamplot(X, Y, U, V, color='#1a5fb4', linewidth=0.5, 
+                           density=1.2, arrowsize=0)
+    stream.lines.set_alpha(0.3)
     
-    # Draw stars
-    draw_stars(t)
+    # Create and plot brushstrokes
+    segments, colors, linewidths = create_brushstrokes(X, Y, U, V, num_strokes=5000, random_seed=random_seed)
     
-    # Draw cypress trees in foreground
-    draw_cypress_trees(t)
+    lc = LineCollection(segments, colors=colors, linewidths=linewidths,
+                        alpha=0.7, capstyle='round')
+    ax.add_collection(lc)
     
-    # Finish
-    screen.update()
-    turtle.done()
-
-
-def draw_swirling_sky(t):
-    """Draw swirling sky patterns using sine/cosine waves."""
-    t.pensize(2)
-    
-    # Create multiple swirling patterns across the sky
-    for row in range(-250, 150, 30):
-        for start_x in range(-400, 400, 100):
-            draw_swirl_line(t, start_x, row)
-
-
-def draw_swirl_line(t, start_x, start_y):
-    """Draw a single swirling line using sine wave."""
-    t.penup()
-    t.goto(start_x, start_y)
-    t.pendown()
-    
-    # Use blue color for sky swirls (visible against black background)
-    t.pencolor("#1a5fb4")
-    
-    # Draw sinusoidal swirl
-    for i in range(100):
-        x = start_x + i
-        # Use sine wave for vertical displacement
-        y = start_y + 15 * math.sin(i * 0.2) + 5 * math.cos(i * 0.3)
-        t.goto(x, y)
-
-
-def draw_moon_with_halos(t):
-    """Draw a glowing yellow moon with soft halos."""
-    moon_x, moon_y = 200, 150
-    
-    # Draw halos (multiple circles of same color for glow effect)
-    halo_sizes = [60, 50, 40, 30]
-    
-    for size in halo_sizes:
-        t.penup()
-        t.goto(moon_x, moon_y - size)
-        t.pendown()
-        t.pencolor("#f7931a")
-        t.fillcolor("#f7931a")
-        t.begin_fill()
-        t.circle(size)
-        t.end_fill()
-    
-    # Draw bright moon center (using same yellow/orange color)
-    t.penup()
-    t.goto(moon_x, moon_y - 20)
-    t.pendown()
-    t.pencolor("#f7931a")
-    t.fillcolor("#f7931a")
-    t.begin_fill()
-    t.circle(20)
-    t.end_fill()
-
-
-def draw_stars(t):
-    """Draw small stars scattered across the sky."""
-    random.seed(42)  # For reproducibility
-    
-    t.pensize(1)
-    
-    # Draw stars at various positions (ensure exactly 30 stars)
-    star_positions = []
-    while len(star_positions) < 30:
-        x = random.randint(-380, 380)
-        y = random.randint(-200, 250)
-        # Avoid moon area
-        if not (180 < x < 220 and 120 < y < 180):
-            star_positions.append((x, y))
-    
-    for x, y in star_positions:
-        draw_star(t, x, y)
-
-
-def draw_star(t, x, y):
-    """Draw a single star with radiating lines."""
-    t.penup()
-    t.goto(x, y)
-    t.pendown()
-    t.pencolor("#f7931a")
-    
-    # Draw star as radiating lines
-    for angle in range(0, 360, 45):
-        t.setheading(angle)
-        t.forward(5)
-        t.backward(5)
-
-
-def draw_cypress_trees(t):
-    """Draw stylized flame-like cypress trees in the foreground."""
-    # Left cypress tree
-    draw_cypress_tree(t, -350, -300, 200)
-    
-    # Right cypress tree (smaller)
-    draw_cypress_tree(t, -250, -300, 150)
-
-
-def draw_cypress_tree(t, x, y, height):
-    """Draw a single flame-like cypress tree."""
-    t.penup()
-    t.goto(x, y)
-    t.pendown()
-    
-    t.pencolor("black")
-    t.fillcolor("black")
-    t.begin_fill()
-    
-    # Draw flame-like shape using curved path
-    t.setheading(90)  # Point upward
-    
-    # Left side of tree (with curves)
-    for i in range(20):
-        angle = math.sin(i * 0.3) * 10
-        t.setheading(90 + angle)
-        t.forward(height / 20)
-    
-    # Top point
-    t.setheading(90)
-    t.forward(height * 0.15)
-    
-    # Right side of tree (with curves, mirrored)
-    t.setheading(-90)
-    t.forward(height * 0.15)
-    
-    for i in range(20):
-        angle = math.sin((19 - i) * 0.3) * 10
-        t.setheading(-90 - angle)
-        t.forward(height / 20)
-    
-    # Close the shape
-    t.goto(x, y)
-    t.end_fill()
-    
-    # Add some texture lines to the tree
-    draw_tree_texture(t, x, y, height)
-
-
-def draw_tree_texture(t, x, y, height):
-    """Add texture lines to cypress tree to enhance flame-like appearance."""
-    t.pencolor("black")
-    t.pensize(2)
-    
-    # Draw wavy lines inside the tree
-    for offset in [-5, 0, 5]:
-        t.penup()
-        t.goto(x + offset, y + height * 0.2)
-        t.pendown()
+    # Add some bright stars
+    rng = np.random.RandomState(random_seed)
+    num_stars = 15
+    for i in range(num_stars):
+        star_x = rng.uniform(0.1, 0.9)
+        star_y = rng.uniform(0.6, 0.95)
         
-        for i in range(int(height * 0.06)):
-            curve = math.sin(i * 0.5) * 3
-            t.goto(x + offset + curve, y + height * 0.2 + i * 10)
+        # Create star with radiating strokes
+        num_rays = 8
+        ray_length = 0.02
+        for angle in np.linspace(0, 2*np.pi, num_rays, endpoint=False):
+            x_end = star_x + ray_length * np.cos(angle)
+            y_end = star_y + ray_length * np.sin(angle)
+            ax.plot([star_x, x_end], [star_y, y_end], 
+                   color='#fbbf24', linewidth=2, alpha=0.9)
+        
+        # Star center
+        ax.scatter(star_x, star_y, s=30, c='#fde047', alpha=1.0, zorder=10)
+    
+    # Add moon with glow
+    moon_x, moon_y = 0.75, 0.65
+    moon_radius = 0.08
+    
+    # Glow effect with multiple circles
+    for r in np.linspace(moon_radius * 1.8, moon_radius, 5):
+        circle = patches.Circle((moon_x, moon_y), r, 
+                               color='#f7931a', alpha=0.15)
+        ax.add_patch(circle)
+    
+    # Bright moon center
+    circle = patches.Circle((moon_x, moon_y), moon_radius, 
+                           color='#fde047', alpha=0.95)
+    ax.add_patch(circle)
+    
+    # Set limits and remove axes
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.set_aspect('equal')
+    ax.axis('off')
+    
+    # Title
+    plt.title("Starry Night - Van Gogh Inspired", 
+             fontsize=16, color='#fbbf24', pad=20, fontweight='bold')
+    
+    plt.tight_layout()
+    return fig
 
 
 if __name__ == "__main__":
-    try:
-        draw_starry_night()
-    except turtle.Terminator:
-        pass
-    except Exception as e:
-        if "invalid command name" in str(e):
-            pass
-        else:
-            raise
+    fig = draw_starry_night()
+    plt.savefig('starry_night.png', dpi=300, facecolor='#0a0a0a', 
+                bbox_inches='tight')
+    print("✓ Starry Night artwork saved as 'starry_night.png'")
+    plt.show()
