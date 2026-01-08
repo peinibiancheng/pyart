@@ -14,7 +14,6 @@ optical color mixing effects (e.g., mixing yellow and blue dots to create a
 
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.colors import to_rgb
 
 
 def create_dot_cluster(x_center, y_center, num_dots, colors, size_range=(1, 3), spread=0.5):
