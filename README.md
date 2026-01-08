@@ -95,6 +95,21 @@ A Python simulation of Sol LeWitt's colorful geometric artworks using the turtle
 python sol_lewitt_geometric.py
 ```
 
+### Pointillism Art (Georges Seurat Inspired)
+**File:** `seurat_pointillism.py`
+
+A Python recreation of Georges Seurat's Pointillism technique using the turtle graphics module. Features:
+- Thousands of small dots of pure color applied in patterns to form an image
+- Optical color mixing: colors are mixed in the eye of the viewer rather than on the palette
+- Thematic focus on light, shadow, and color theory
+- High-density dot rendering using mathematical distributions
+- Read more: [README_SEURAT.md](README_SEURAT.md)
+
+**Run it:**
+```bash
+python seurat_pointillism.py
+```
+
 ### 🎨 Chinese Calligraphy - 2026 马到成功
 **File:** `calligraphy_2026.py`  
 **Output:** High-quality PNG with gradient effects and Chinese characters  
