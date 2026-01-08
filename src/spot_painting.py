@@ -1,22 +1,23 @@
 """
-Damien Hirst 'Spot Paintings'-inspired artwork using Python's turtle module.
+Damien Hirst 'Spot Paintings'-inspired artwork using Python's Matplotlib.
 Generates a grid of colorful circles with pop art aesthetics.
 
 Usage:
     python spot_painting.py
 
 Requirements:
-    - Python 3.x with tkinter support
-    - Standard library only (turtle, random)
+    - Python 3.x
+    - matplotlib
 
 Features:
-    - 10x10 grid of perfectly aligned colored spots
-    - High-saturation pop art color palette
+    - 12x12 grid of perfectly aligned colored spots
+    - Unique, randomly assigned vibrant colors for each spot
     - Consistent spacing and centering
-    - Clean, minimal aesthetic with no borders
+    - Clean, minimal aesthetic with no borders/outlines
+    - Pure white background
 """
 
-import turtle
+import matplotlib.pyplot as plt
 import random
 
 
@@ -24,24 +25,12 @@ def draw_spot_painting():
     """
     Generate a Damien Hirst 'Spot Paintings'-inspired artwork.
     
-    Creates a 10x10 grid of colorful circles with:
-    - High-saturation pop art colors randomly selected for each spot
+    Creates a 12x12 grid of colorful circles with:
+    - Unique, randomly assigned vibrant colors for each spot
     - Perfect grid alignment with consistent spacing
-    - Centered composition on a white canvas
+    - Centered composition on a pure white canvas
+    - No outlines on circles
     """
-    # Canvas setup: 600x600 white background
-    screen = turtle.Screen()
-    screen.setup(width=600, height=600)
-    screen.bgcolor("white")
-    screen.title("Spot Painting - Damien Hirst Inspired")
-    # screen.tracer(5)  # Commented out to let t.speed() control the speed
-
-    
-    # Turtle setup: fastest speed for efficiency
-    t = turtle.Turtle()
-    t.speed(20)  # 0 is the fastest animation speed, 1 is slowest, 10 is fast
-
-    
     # High-saturation pop art color palette (RGB hex codes)
     # Colors inspired by Damien Hirst's vibrant, bold aesthetic
     colors = [
@@ -60,64 +49,76 @@ def draw_spot_painting():
         "#FFFF00",  # Pure Yellow
         "#FF00FF",  # Magenta/Fuchsia
         "#00FA9A",  # Medium Spring Green
+        "#FFA500",  # Orange
+        "#8B008B",  # Dark Magenta
+        "#00CED1",  # Dark Turquoise
+        "#FF1493",  # Deep Pink
+        "#7FFF00",  # Chartreuse
+        "#DC143C",  # Crimson
+        "#00FFFF",  # Cyan
+        "#FF69B4",  # Hot Pink
+        "#ADFF2F",  # Green Yellow
+        "#FF4500",  # Orange Red
+        "#DA70D6",  # Orchid
+        "#98FB98",  # Pale Green
+        "#DDA0DD",  # Plum
+        "#FF0000",  # Red
+        "#FA8072",  # Salmon
+        "#F0E68C",  # Khaki
+        "#EE82EE",  # Violet
+        "#FFFF54",  # Laser Lemon
+        "#00FF7F",  # Spring Green
+        "#4169E1",  # Royal Blue
+        "#FF6347",  # Tomato
+        "#40E0D0",  # Turquoise
+        "#EE82EE",  # Violet
+        "#F5DEB3",  # Wheat
+        "#FFFF00",  # Yellow
+        "#9ACD32",  # Yellow Green
     ]
     
     # Grid configuration
-    rows = 10  # Number of rows in the grid
-    cols = 10  # Number of columns in the grid
-    spot_diameter = 20  # Diameter of each circle in pixels
-    spot_radius = spot_diameter / 2  # Radius for turtle.circle()
-    spacing = 50  # Distance between center points of adjacent circles
+    rows = 12  # Number of rows in the grid
+    cols = 12  # Number of columns in the grid
     
-    # Calculate starting position to center the grid on canvas
-    # Grid dimensions: (cols - 1) * spacing gives total width of grid
-    # We want the grid centered, so we calculate offset from center (0, 0)
-    grid_width = (cols - 1) * spacing
-    grid_height = (rows - 1) * spacing
-    start_x = -grid_width / 2  # Left edge of grid (centered horizontally)
-    start_y = grid_height / 2   # Top edge of grid (centered vertically)
+    # Generate grid coordinates
+    x_coords = []
+    y_coords = []
+    spot_colors = []
     
-    # Disable border/outline for clean aesthetic
-    t.penup()  # Never draw lines between spots
-    
-    # Nested loops to create 10x10 grid
+    # Create 12x12 grid centered at origin
     for row in range(rows):
         for col in range(cols):
-            # Calculate coordinates for current spot
-            # x: start from left edge, move right by col * spacing
-            # y: start from top edge, move down by row * spacing
-            x = start_x + col * spacing
-            y = start_y - row * spacing
+            # Center the grid by offsetting from origin
+            # Grid goes from -5.5 to 5.5 on both axes (12 spots, centered)
+            x = col - (cols - 1) / 2
+            y = (rows - 1) / 2 - row  # Flip y-axis to match conventional grid
             
-            # Position turtle at spot location
-            # Note: turtle.circle() draws from the bottom of the circle
-            # so we offset y by radius to center the circle at (x, y)
-            t.goto(x, y - spot_radius)
+            x_coords.append(x)
+            y_coords.append(y)
             
-            # Select random color from palette for this spot
-            color = random.choice(colors)
-            t.fillcolor(color)
-            
-            # Draw filled circle with no border
-            t.begin_fill()
-            t.circle(spot_radius)
-            t.end_fill()
+            # Assign a unique random color to each spot
+            spot_colors.append(random.choice(colors))
     
-    # Hide turtle arrow for clean final presentation
-    t.hideturtle()
+    # Create figure and axis with white background
+    fig, ax = plt.subplots(figsize=(10, 10), facecolor='white')
+    ax.set_facecolor('white')
     
-    # Keep window open
-    screen.update()
-    turtle.done()
+    # Create scatter plot with no outlines
+    ax.scatter(x_coords, y_coords, c=spot_colors, s=800, edgecolors='none')
+    
+    # Hide all axes
+    ax.axis('off')
+    
+    # Set equal aspect ratio for perfect circles
+    ax.set_aspect('equal')
+    
+    # Adjust layout to remove padding
+    plt.tight_layout(pad=0)
+    
+    # Display the artwork
+    plt.show()
 
 
 if __name__ == "__main__":
-    try:
-        draw_spot_painting()
-    except turtle.Terminator:
-        pass
-    except Exception as e:
-        if "invalid command name" in str(e):
-            pass
-        else:
-            raise
+    draw_spot_painting()
